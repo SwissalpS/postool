@@ -1,7 +1,9 @@
 
 globals = {
 	"minetest",
-	"postool"
+	"postool",
+	"advtrains",
+	"mesecons_debug"
 }
 
 read_globals = {
@@ -14,5 +16,5 @@ read_globals = {
 	"dump",
 
 	-- deps
-	"default", "advtrains"
+	"default", "advtrains", "mesecons_debug"
 }

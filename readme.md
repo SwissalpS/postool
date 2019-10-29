@@ -31,6 +31,7 @@ postool.hud.titletrain				'Railway Time: '
 postool.hud.titletime				'Time: '
 postool.hud.titlenode				'Node: '
 postool.hud.titleblock				'Block: '
+postool.hud.titlemesecons			'Mesecons: '
 # value shown in HUD when
 # advtrains is not enabled
 postool.hud.titletrainna			'advtrains not enabled'
@@ -41,6 +42,7 @@ postool.hud.defaultshowtrain		false (0/1)
 postool.hud.defaultshowtime			false (0/1)
 postool.hud.defaultshownode			true (0/1)
 postool.hud.defaultshowblock		true (0/1)
+postool.hud.defaultshowmesecons		false (0/1)
 # wait at least this long
 # before updating HUD (seconds)
 postool.hud.minupdateinterval		2

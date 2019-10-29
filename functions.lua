@@ -53,11 +53,23 @@ postool.getTime = function()
 end -- getTime
 
 
+postool.hasAdvancedTrains = function()
+	return postool.has_advtrains_mod and advtrains.lines and advtrains.lines.rwt
+end -- hasAdvancedTrains
+
+
+postool.hasMeseconsDebug = function()
+	return (nil ~= postool.has_mesecons_debug_mod) and mesecons_debug
+		and (nil ~= mesecons_debug.max_usage_micros)
+		and mesecons_debug.get_context
+end -- hasMeseconsDebug
+
+
 -- return a string to show on HUD
 postool.getTimeTrain = function()
 
 	local sOut
-	if postool.has_advtrains_mod and advtrains.lines and advtrains.lines.rwt then
+	if postool.hasAdvancedTrains() then
 
 		sOut = advtrains.lines.rwt.to_string(advtrains.lines.rwt.now(), true)
 

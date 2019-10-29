@@ -9,14 +9,15 @@ postool.showConfigFormspec = function(oPlayer)
 		return
 	end
 
-	local sFormspec = 'size[3,2.75;]'
+	local sFormspec = 'size[3,3.25;]'
 		.. 'label[0.6,0;' .. S('PosTool HUD Configuration') .. ']'
 		.. 'checkbox[1,0.25;bMain;' .. S('Main') .. ';' .. tostring(tDB.bMain) .. ']'
 		.. 'checkbox[0,0.75;bTrain;' .. postool.hudTitleTrain .. ';' .. tostring(tDB.tb[1]) .. ']'
 		.. 'checkbox[2,0.75;bTime;' .. postool.hudTitleTime .. ';' .. tostring(tDB.tb[2]) .. ']'
 		.. 'checkbox[0,1.25;bNode;' .. postool.hudTitleNode .. ';' .. tostring(tDB.tb[3]) .. ']'
 		.. 'checkbox[2,1.25;bBlock;' .. postool.hudTitleBlock .. ';' .. tostring(tDB.tb[4]) .. ']'
-		.. 'button[0,2;3,1;butToggle;' .. S('Toggle Position') .. ']'
+		.. 'checkbox[0,1.75;bMesecons;' .. postool.hudTitleMesecons .. ';' .. tostring(tDB.tb[5]) .. ']'
+		.. 'button[0,2.5;3,1;butToggle;' .. S('Toggle Position') .. ']'
 
 	minetest.show_formspec(sName, sPosToolFormNameConfig, sFormspec)
 
@@ -36,7 +37,6 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 
 	-- Checkboxes respond on change
 	-- we get a table with just one element in it.
-	-- There is also a 'quit = true' message when user presses Esc
 	if nil ~= tFields.bMain then
 		tDB.bMain = 'true' == tFields.bMain
 	end
@@ -57,12 +57,17 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 		tDB.tb[4] = 'true' == tFields.bBlock
 	end
 
+	if nil ~= tFields.bMesecons then
+		tDB.tb[5] = 'true' == tFields.bMesecons
+	end
+
 	-- Buttons also respond right away
 	if nil ~= tFields.butToggle then
 		postool.toggleHudPosition(oPlayer)
 		return
 	end
 
+	-- There is also a 'quit = true' message when user presses Esc
 	if nil ~= tFields.quit then return end
 
 	postool.rebuildHud(oPlayer)

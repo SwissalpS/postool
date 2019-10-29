@@ -9,6 +9,8 @@ postool.tHudDB = {}
 -- 'hide' an element
 local function clearHud(oPlayer, iID)
 
+	if nil == iID then return end
+
 	oPlayer:hud_change(iID, 'text', '')
 
 end -- clearHud
@@ -16,6 +18,8 @@ end -- clearHud
 
 -- position element vertically
 local function setHudYoffset(oPlayer, iID, iY)
+
+	if nil == iID then return end
 
 	oPlayer:hud_change(iID, 'offset', { x = 0, y = iY })
 
@@ -71,8 +75,29 @@ postool.rebuildHud = function(oPlayer)
 	local iDiff = -18
 	local bOff = not tDB.bMain
 
-	local iID = tDB.tIDs.block
+	local iID = tDB.tIDs.meseconsUsageBG
+	if tDB.tb[5] then
+
+		iY = iY + (iDiff * 2)
+
+		if bOff then
+			clearHud(oPlayer, iID)
+			clearHud(oPlayer, tDB.tIDs.meseconsUsageFG)
+			clearHud(oPlayer, tDB.tIDs.meseconsPenalty)
+		end
+
+	else
+
+		clearHud(oPlayer, iID)
+		clearHud(oPlayer, tDB.tIDs.meseconsUsageFG)
+		clearHud(oPlayer, tDB.tIDs.meseconsPenalty)
+
+	end -- mesecons
+
+	iID = tDB.tIDs.block
 	if tDB.tb[4] then
+
+		setHudYoffset(oPlayer, iID, iY)
 
 		iY = iY + iDiff
 
@@ -143,19 +168,24 @@ postool.generateHud = function(oPlayer)
 		return
 	end
 
+	local bAdvTrains = postool.hasAdvancedTrains()
+	local bMesecons = postool.hasMeseconsDebug()
+
 	local tDB = {
 		tIDs = {},
 		tb = {
 			true == postool.hudShowTrain,
 			true == postool.hudShowTime,
 			true == postool.hudShowNode,
-			true == postool.hudShowBlock
+			true == postool.hudShowBlock,
+			true == postool.hudShowMesecons
 		},
 		bMain = true == postool.hudShowMain,
 		bDefaultPosition = true,
 		bFirstRun = true
 	}
 
+	if bAdvTrains then
 	tDB.tIDs.trainTime = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolTrainTime',
@@ -166,6 +196,7 @@ postool.generateHud = function(oPlayer)
 		alignment = HUD_ALIGNMENT,
 		number = postool.hudColour
 	})
+	end -- if got trains
 	tDB.tIDs.time = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolTime',
@@ -196,6 +227,37 @@ postool.generateHud = function(oPlayer)
 		alignment = HUD_ALIGNMENT,
 		number = postool.hudColour
 	})
+	if bMesecons then
+	tDB.tIDs.meseconsUsageBG = oPlayer:hud_add({
+		hud_elem_type = 'image',
+		--name = 'postoolMeseconsUsageBG',
+		position = HUD_POSITION,
+		offset = { x = 0, y = -18 },
+		text = 'mesecons_use_bg.png',
+		scale = { x = 100, y = 100 },
+		alignment = HUD_ALIGNMENT
+	})
+	tDB.tIDs.meseconsUsageFG = oPlayer:hud_add({
+		hud_elem_type = 'statbar',
+		--name = 'postoolMeseconsUsageFG',
+		position = HUD_POSITION,
+		offset = { x = 0, y = -18 },
+		text = 'mesecons_use_fg.png',
+		scale = HUD_SCALE,--{ x = 50, y = 100 },
+		alignment = HUD_ALIGNMENT,
+		number = 4
+	})
+	tDB.tIDs.meseconsPenalty = oPlayer:hud_add({
+		hud_elem_type = 'text',
+		name = 'postoolMeseconsPenalty',
+		position = HUD_POSITION,
+		offset = { x = 0, y = 0 },
+		text = 'Initializing...',
+		scale = HUD_SCALE,
+		alignment = HUD_ALIGNMENT,
+		number = postool.hudColour
+	})
+	end -- if got mesecons_debug
 
 	postool.tHudDB[sName] = tDB
 
@@ -205,13 +267,45 @@ postool.generateHud = function(oPlayer)
 end -- generatHud
 
 
+postool.updateHudMesecons = function(oPlayer)
+
+	local sName = oPlayer:get_player_name()
+	local tDB = postool.tHudDB[sName]
+
+	-- not active or no mesecons at all
+	if not (tDB.tb[5] and tDB.tIDs.meseconsPenalty) then return end
+
+	local tPos = oPlayer:get_pos()
+	local tCtx = mesecons_debug.get_context(tPos)
+
+	local nPercent = math.floor(tCtx.avg_micros / mesecons_debug.max_usage_micros * 100)
+
+	local sPenalty = ' usage: ' .. tCtx.avg_micros .. ' us/s (' .. nPercent .. '%) '
+		.. 'penalty: ' .. math.floor(tCtx.penalty * 10) / 10 .. ' s'
+--[[
+  if ctx.penalty <= 0.1 then
+    return txt, 0x00FF00
+  elseif ctx.penalty < 0.5 then
+    return txt, 0xFFFF00
+  else
+    return txt, 0xFF0000
+  end
+--]]
+
+	-- TODO: actually update
+	oPlayer:hud_change(tDB.tIDs.meseconsPenalty, 'text', sPenalty)
+	--oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'scale', { x = nPercent, y = 1 })
+
+end -- updateHudMesecons
+
+
 -- show new text
 postool.updateHud = function(oPlayer, sTrain, sTime)
 
 	local sName = oPlayer:get_player_name()
 	local tDB = postool.tHudDB[sName]
 
-	if tDB.tb[1] then
+	if tDB.tb[1] and tDB.tIDs.trainTime then
 
 		oPlayer:hud_change(tDB.tIDs.trainTime, 'text', sTrain)
 
@@ -222,6 +316,8 @@ postool.updateHud = function(oPlayer, sTrain, sTime)
 		oPlayer:hud_change(tDB.tIDs.time, 'text', sTime)
 
 	end -- time
+
+	postool.updateHudMesecons(oPlayer)
 
 	-- need to get positon strings at all?
 	if not (tDB.tb[3] or tDB.tb[4]) then return end
