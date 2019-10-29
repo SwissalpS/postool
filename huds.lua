@@ -296,19 +296,19 @@ postool.updateHudMesecons = function(oPlayer)
 
 	end -- if show more details on this server
 
---[[
-  if ctx.penalty <= 0.1 then
-    return txt, 0x00FF00
-  elseif ctx.penalty < 0.5 then
-    return txt, 0xFFFF00
-  else
-    return txt, 0xFF0000
-  end
---]]
+	local sTexture
+	if 0.1 >= tCtx.penalty then
+		sTexture = 'mesecons_use_fg.png' --0x00FF00
+	elseif 0.5 > tCtx.penalty then
+		sTexture = 'mesecons_use_fg_mid.png' --0xFFFF00
+	else
+		sTexture = 'mesecons_use_fg_high.png' --0xFF0000
+	end
 
-	-- TODO: actually update
 	oPlayer:hud_change(tDB.tIDs.meseconsPenalty, 'text', sPenalty)
-	--oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'scale', { x = nPercent, y = 1 })
+	oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'text', sTexture)
+	-- give a minimum to show, so can see red penalty even when no usage
+	oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'number', math.max(8, nPercent * 3))
 
 end -- updateHudMesecons
 
