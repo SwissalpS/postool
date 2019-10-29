@@ -101,13 +101,18 @@ minetest.register_node('postool:display_node', {
 			-- south
 			{ -.55, -.55, -.55, 15.55, 15.55, -.55 },
 			-- east
-			{ 15.55, 15.55, 15.55, 15.55, -.55, -.55 },
+			{ 15.55, -.55, -.55, 15.55, 15.55, 15.55 },
 			-- top
-			{ 15.55, 15.55, 15.55, -.55, 15.55, -.55 },
+			{ -.55, 15.55, -.55, 15.55, 15.55, 15.55 },
 			-- north
-			{ 15.55, 15.55, 15.55, -.55, -.55, 15.55 },
+			{ -.55, -.55, 15.55, 15.55, 15.55, 15.55 },
+			-- have not noticed more or less glitchiness with this on and it
+			-- shows from which side to expect most glitch
 			-- block origin
-			{ -.55, -.55, -.55, .55, .55, .55 },
+			{ -.45, -.45, -.45, .55, .55, .55 },
+			-- while this works, it is glitchy, so disabled
+			-- centre eight nodes
+			--{ 6.45, 6.45, 6.45, 8.55, 8.55, 8.55 },
 		},
 	},
 	selection_box = {
