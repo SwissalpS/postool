@@ -21,14 +21,14 @@ postool.getPositions = function(oPlayer)
 	local tNode, tBlock = postool.getPositionTablesForPos(oPlayer:get_pos())
 
 	local sNode = postool.hudTitleNode
-		.. tostring(tNode.x) .. postool.hudPosSeperator
-		.. tostring(tNode.y) .. postool.hudPosSeperator
+		.. tostring(tNode.x) .. postool.hudPosSeparator
+		.. tostring(tNode.y) .. postool.hudPosSeparator
 		.. tostring(tNode.z)
 
 
 	local sBlock = postool.hudTitleBlock
-		.. tostring(tBlock.x) .. postool.hudPosSeperator
-		.. tostring(tBlock.y) .. postool.hudPosSeperator
+		.. tostring(tBlock.x) .. postool.hudPosSeparator
+		.. tostring(tBlock.y) .. postool.hudPosSeparator
 		.. tostring(tBlock.z)
 
 	return sNode, sBlock

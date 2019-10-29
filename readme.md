@@ -24,7 +24,7 @@ postool.hud.offsetx				0.8
 postool.hud.offsety				0.95
 # how to seperate
 # x, y and z values
-postool.hud.posseperator		' | '
+postool.hud.posseparator			' | '
 # titles in HUD and formspec
 postool.hud.titletrain			'Railway Time: '
 postool.hud.titletime			'Time: '
