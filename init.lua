@@ -23,6 +23,7 @@ postool = {
 	hudShowNode = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshownode')) or 1),
 	hudShowBlock = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowblock')) or 1),
 	hudShowMesecons = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowmesecons')) or 0),
+	hudShowMeseconsDetails = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowmeseconsdetails')) or 0),
 	-- wait at least this long before updating hud
 	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
 	toolGridDisplayDuration = tonumber(minetest.settings:get('postool.tool.griddisplayduration') or 12)

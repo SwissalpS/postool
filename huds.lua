@@ -178,7 +178,8 @@ postool.generateHud = function(oPlayer)
 			true == postool.hudShowTime,
 			true == postool.hudShowNode,
 			true == postool.hudShowBlock,
-			true == postool.hudShowMesecons
+			true == postool.hudShowMesecons,
+			true == postool.hudShowMeseconsDetails
 		},
 		bMain = true == postool.hudShowMain,
 		bDefaultPosition = true,
@@ -280,8 +281,17 @@ postool.updateHudMesecons = function(oPlayer)
 
 	local nPercent = math.floor(tCtx.avg_micros / mesecons_debug.max_usage_micros * 100)
 
-	local sPenalty = ' usage: ' .. tCtx.avg_micros .. ' us/s (' .. nPercent .. '%) '
-		.. 'penalty: ' .. math.floor(tCtx.penalty * 10) / 10 .. ' s'
+	local sPenalty = 'Penalty: ' .. tostring(math.floor(tCtx.penalty * 10) / 10) .. ' s'
+
+	if tDB.tb[6] then
+
+		local sDetails = 'Usage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
+						.. tostring(nPercent) .. '%) \n'
+
+		sPenalty = sDetails .. sPenalty
+
+	end -- if show more details on this server
+
 --[[
   if ctx.penalty <= 0.1 then
     return txt, 0x00FF00

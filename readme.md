@@ -43,6 +43,7 @@ postool.hud.defaultshowtime			false (0/1)
 postool.hud.defaultshownode			true (0/1)
 postool.hud.defaultshowblock		true (0/1)
 postool.hud.defaultshowmesecons		false (0/1)
+postool.hud.defaultshowmeseconsdetails	false (0/1)
 # wait at least this long
 # before updating HUD (seconds)
 postool.hud.minupdateinterval		2

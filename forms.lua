@@ -17,6 +17,7 @@ postool.showConfigFormspec = function(oPlayer)
 		.. 'checkbox[0,1.25;bNode;' .. postool.hudTitleNode .. ';' .. tostring(tDB.tb[3]) .. ']'
 		.. 'checkbox[2,1.25;bBlock;' .. postool.hudTitleBlock .. ';' .. tostring(tDB.tb[4]) .. ']'
 		.. 'checkbox[0,1.75;bMesecons;' .. postool.hudTitleMesecons .. ';' .. tostring(tDB.tb[5]) .. ']'
+		.. 'checkbox[2,1.75;bMeseconsDetails;' .. S('Details') .. ';' .. tostring(tDB.tb[6]) .. ']'
 		.. 'button[0,2.5;3,1;butToggle;' .. S('Toggle Position') .. ']'
 
 	minetest.show_formspec(sName, sPosToolFormNameConfig, sFormspec)
@@ -59,6 +60,11 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 
 	if nil ~= tFields.bMesecons then
 		tDB.tb[5] = 'true' == tFields.bMesecons
+	end
+
+	if nil ~= tFields.bMeseconsDetails then
+		tDB.tb[6] = 'true' == tFields.bMeseconsDetails
+		return
 	end
 
 	-- Buttons also respond right away
