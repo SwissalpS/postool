@@ -4,4 +4,5 @@ following textures by TenPlus1 (CC BY-SA 3.0):
 postool_wand.png SwissalpS took from [missions] and changed the colours
 
 mesecons_use_fg.png and mesecons_use_bg.png are [xp_redo]s xp_progress_fg.png and xp_progress_bg.png
-
+mesecons_use_fg_mid.png and mesecons_use_fg_high.png are copies of mesecons_use_fg.png with changed colours
+(and sometimes converted to indexed colours)
