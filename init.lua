@@ -1,16 +1,6 @@
 -- Simple head-up display for current position and time.
 -- Also Tool to graphicaly show current map-block.
--- forked branch from
--- poshud
-
--- Origin:
---ver 0.2.1 minetest_time
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
--------Minetest Time--kazea's code tweaked by cg72 with help from crazyR--------
-----------------Zeno` simplified some math and additional tweaks ---------------
---------------------------------------------------------------------------------
+-- read the readme.md for more info on origin.
 
 
 --settings
