@@ -6,8 +6,14 @@ Adds configurable HUD elements for current: position (node and block) and time.
 If advtrains is installed, it can also display railway time.
 Use chat command /postool to invoke formspec to toggle elements and position.
 
-# Comming
-The actual PosTool that will show graphically where the borders of current block are.
+# TODO: add screenshots
+# PosTool
+Crafting recipe:
+		|				|				| default:glass |
+		|				| default:torch |				|
+		| default:stick |				|				|
+Punch or place with PosTool to show a grid of the map-block at that position.
+If PosTool is used on a node, that nodes position will be used otherwise players position.
 
 # Settings
 
@@ -37,10 +43,16 @@ postool.hud.defaultshowblock	true (0/1)
 # wait at least this long
 # before updating HUD (seconds)
 postool.hud.minupdateinterval	2
+# how long to show grid for
+# when tool is used
+postool.tool.griddisplayduration	12
 
 # Thanks
 This mod was strongly inspired by [poshud] https://github.com/orwell96/poshud
 Some techniques I borrowed from [missions] https://github.com/thomasrudin-mt/missions
+I also want to mention [replacer] https://github.com/pandorabox-io/replacer <- https://github.com/coil0/replacer <- https://github.com/Sokomine/replacer
+and [protector] https://notabug.org/TenPlus1/protector
+as I used parts of them too.
 Thanks also to the users of pandorabox.io for feedback and inspiration to actually
 write this mod.
 (If you feel I should include you by name, just submit a PR)

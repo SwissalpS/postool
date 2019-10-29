@@ -30,7 +30,8 @@ postool = {
 	hudShowNode = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshownode')) or 1),
 	hudShowBlock = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowblock')) or 1),
 	-- wait at least this long before updating hud
-	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2)
+	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
+	toolGridDisplayDuration = tonumber(minetest.settings:get('postool.tool.griddisplayduration') or 12)
 }
 
 postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
@@ -44,7 +45,7 @@ dofile(sMP .. '/functions.lua')
 dofile(sMP .. '/huds.lua')
 dofile(sMP .. '/forms.lua')
 dofile(sMP .. '/chatcommands.lua')
---dofile(sMP .. '/tool.lua')
+dofile(sMP .. '/tool.lua')
 
 minetest.register_on_joinplayer(function(player) postool.generateHud(player) end)
 minetest.register_on_leaveplayer(function(player) minetest.after(1, removeHud, player) end)

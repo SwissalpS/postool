@@ -1,7 +1,5 @@
 -- return tables with players current position in node and block metrics
-postool.getPositionTables = function(oPlayer)
-
-	local tPos = oPlayer:get_pos()
+postool.getPositionTablesForPos = function(tPos)
 
 	local x = math.floor(tPos.x + 0.5)
 	local y = math.floor(tPos.y + 0.5)
@@ -14,13 +12,13 @@ postool.getPositionTables = function(oPlayer)
 			z = math.floor(z / 16)
 		}
 
-end -- getPositionTables
+end -- getPositionTablesForPos
 
 
 -- return two strings to show on HUD
 postool.getPositions = function(oPlayer)
 
-	local tNode, tBlock = postool.getPositionTables(oPlayer)
+	local tNode, tBlock = postool.getPositionTablesForPos(oPlayer:get_pos())
 
 	local sNode = postool.hudTitleNode
 		.. tostring(tNode.x) .. postool.hudPosSeperator
