@@ -84,6 +84,9 @@ postool.rebuildHud = function(oPlayer)
 			clearHud(oPlayer, iID)
 			clearHud(oPlayer, tDB.tIDs.meseconsUsageFG)
 			clearHud(oPlayer, tDB.tIDs.meseconsPenalty)
+		else
+			oPlayer:hud_change(iID, 'text', 'mesecons_use_bg.png')
+			oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'text', 'mesecons_use_fg.png')
 		end
 
 	else
@@ -230,13 +233,14 @@ postool.generateHud = function(oPlayer)
 	})
 	if bMesecons then
 	tDB.tIDs.meseconsUsageBG = oPlayer:hud_add({
-		hud_elem_type = 'image',
+		hud_elem_type = 'statbar',
 		--name = 'postoolMeseconsUsageBG',
 		position = HUD_POSITION,
 		offset = { x = 0, y = -18 },
 		text = 'mesecons_use_bg.png',
-		scale = { x = 100, y = 100 },
-		alignment = HUD_ALIGNMENT
+		scale = HUD_SCALE, --{ x = 300, y = 1 },
+		alignment = HUD_ALIGNMENT,
+		number = 3
 	})
 	tDB.tIDs.meseconsUsageFG = oPlayer:hud_add({
 		hud_elem_type = 'statbar',
