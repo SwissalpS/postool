@@ -1,0 +1,58 @@
+-- Simple head-up display for current position and time.
+-- Also Tool to graphicaly show current map-block.
+-- forked branch from
+-- poshud
+
+-- Origin:
+--ver 0.2.1 minetest_time
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------Minetest Time--kazea's code tweaked by cg72 with help from crazyR--------
+----------------Zeno` simplified some math and additional tweaks ---------------
+--------------------------------------------------------------------------------
+
+
+--settings
+postool = {
+	-- Position of hud
+	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),
+	hudPosY = tonumber(minetest.settings:get('postool.hud.offsety') or 0.95),
+	hudPosSeperator = minetest.settings:get('postool.hud.posseperator') or ' | ',
+	hudTitleTrain = minetest.settings:get('postool.hud.titletrain') or S('Railway Time') .. ': ',
+	hudTitleTime = minetest.settings:get('postool.hud.titletime') or S('Time') .. ': ',
+	hudTitleNode = minetest.settings:get('postool.hud.titlenode') or S('Node') .. ': ',
+	hudTitleBlock = minetest.settings:get('postool.hud.titleblock') or S('Block') .. ': ',
+	hudTitleTrainNA = minetest.settings:get('postool.hud.titletrainna') or S('advtrains not enabled'),
+	hudShowMain = 1 == tonumber(minetest.settings:get('postool.hud.defaultshowmain')),
+	hudShowTrain = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowtrain')) or 0),
+	hudShowTime = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowtime')) or 0),
+	hudShowNode = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshownode')) or 1),
+	hudShowBlock = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowblock')) or 1),
+	-- wait at least this long before updating hud
+	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2)
+}
+
+postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
+
+-- deps
+postool.has_advtrains_mod = minetest.get_modpath('advtrains')
+-- base path
+local sMP = minetest.get_modpath('postool')
+
+dofile(sMP .. '/functions.lua')
+dofile(sMP .. '/huds.lua')
+dofile(sMP .. '/forms.lua')
+dofile(sMP .. '/chatcommands.lua')
+--dofile(sMP .. '/tool.lua')
+
+minetest.register_on_joinplayer(function(player) postool.generateHud(player) end)
+minetest.register_on_leaveplayer(function(player) minetest.after(1, removeHud, player) end)
+--minetest.register_globalstep(function() postool.register_globalstep() end)
+minetest.register_globalstep(postool.register_globalstep)
+minetest.register_chatcommand('postool', postool.chatcommand)
+minetest.register_on_player_receive_fields(postool.register_on_player_receive_fields)
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+print('[postool] loaded')
+
