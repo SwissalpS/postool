@@ -4,6 +4,7 @@ postool mod for minetest
 
 Adds configurable HUD elements for current: position (node and block) and time.
 If advtrains is installed, it can also display railway time.
+If mesecons_debug is installed, this info can also be displayed.
 Use chat command /postool to invoke formspec to toggle elements and position.
 
 # TODO: add screenshots
