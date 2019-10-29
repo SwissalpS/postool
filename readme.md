@@ -9,9 +9,11 @@ Use chat command /postool to invoke formspec to toggle elements and position.
 # TODO: add screenshots
 # PosTool
 Crafting recipe:
+```
 		|				|				| default:glass |
 		|				| default:torch |				|
 		| default:stick |				|				|
+```
 Punch or place with PosTool to show a grid of the map-block at that position.
 If PosTool is used on a node, that nodes position will be used otherwise players position.
 
@@ -45,7 +47,7 @@ postool.hud.minupdateinterval		2
 # how long to show grid for
 # when tool is used
 postool.tool.griddisplayduration	12
-
+```
 # Thanks
 This mod was strongly inspired by [poshud] https://github.com/orwell96/poshud
 Some techniques I borrowed from [missions] https://github.com/thomasrudin-mt/missions
