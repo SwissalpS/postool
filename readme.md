@@ -6,7 +6,7 @@ Adds configurable HUD elements for current: position (node and block) and time.
 If advtrains is installed, it can also display railway time.
 If mesecons_debug is installed, this info can also be displayed.
 
-Use chat command `/postool` to invoke formspec to toggle elements and position.
+Use chat command /postool to invoke formspec to toggle elements and position of HUD.
 
 # Screenshots
 Pick a location.
@@ -16,6 +16,8 @@ Pick a location.
 Use the tool.
 
 ![](/doc/img/s2.png)
+
+# TODO: add screenshots of formspec and HUD. Maybe even crafting recipe.
 
 # PosTool
 Crafting recipe:
@@ -66,6 +68,7 @@ This mod was strongly inspired by [poshud](https://github.com/orwell96/poshud).
 Some techniques I borrowed from [missions](https://github.com/thomasrudin-mt/missions).
 I also want to mention [replacer](https://github.com/pandorabox-io/replacer) <- [Coil0's version](https://github.com/coil0/replacer) <- [Sokomine's version](https://github.com/Sokomine/replacer)
 and [protector](https://notabug.org/TenPlus1/protector) as I used parts of them too.
+[@6r1d for screenshots and support](https://github.com/6r1d)
 
 Thanks also to the users of pandorabox.io for feedback and inspiration to actually
 write this mod.
