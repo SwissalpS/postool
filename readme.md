@@ -17,7 +17,13 @@ Use the tool.
 
 ![](/doc/img/s2.png)
 
-# TODO: add screenshots of formspec and HUD. Maybe even crafting recipe.
+Invoke formspec with /postool
+
+![](/doc/img/postool_HUD_config.png)
+
+Example display of HUD with above settings
+
+![](/doc/img/postool_HUD_display.png)
 
 # PosTool
 Crafting recipe:
