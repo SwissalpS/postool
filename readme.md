@@ -1,13 +1,22 @@
 
-postool mod for minetest
-============
+PosTool mod for Minetest
+========================
 
 Adds configurable HUD elements for current: position (node and block) and time.
 If advtrains is installed, it can also display railway time.
 If mesecons_debug is installed, this info can also be displayed.
-Use chat command /postool to invoke formspec to toggle elements and position.
 
-# TODO: add screenshots
+Use chat command `/postool` to invoke formspec to toggle elements and position.
+
+# Screenshots
+Pick a location.
+
+![](/doc/img/s1.png)
+
+Use the tool.
+
+![](/doc/img/s2.png)
+
 # PosTool
 Crafting recipe:
 ```
@@ -53,12 +62,12 @@ postool.hud.minupdateinterval			2
 postool.tool.griddisplayduration		12
 ```
 # Thanks
-This mod was strongly inspired by [poshud] https://github.com/orwell96/poshud
-Some techniques I borrowed from [missions] https://github.com/thomasrudin-mt/missions
-I also want to mention [replacer] https://github.com/pandorabox-io/replacer <- https://github.com/coil0/replacer <- https://github.com/Sokomine/replacer
-and [protector] https://notabug.org/TenPlus1/protector
-as I used parts of them too.
+This mod was strongly inspired by [poshud](https://github.com/orwell96/poshud).
+Some techniques I borrowed from [missions](https://github.com/thomasrudin-mt/missions).
+I also want to mention [replacer](https://github.com/pandorabox-io/replacer) <- [Coil0's version](https://github.com/coil0/replacer) <- [Sokomine's version](https://github.com/Sokomine/replacer)
+and [protector](https://notabug.org/TenPlus1/protector) as I used parts of them too.
+
 Thanks also to the users of pandorabox.io for feedback and inspiration to actually
 write this mod.
-(If you feel I should include you by name, just submit a PR)
 
+(If you feel I should include you by name, just submit a PR)
