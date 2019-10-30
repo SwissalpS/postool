@@ -7,7 +7,7 @@ If advtrains is installed, it can also display railway time.
 If mesecons_debug is installed, this info can also be displayed.
 Use chat command /postool to invoke formspec to toggle elements and position of HUD.
 
-# TODO: add screenshots
+# TODO: add screenshots of grid, formspec and HUD. Maybe even crafting recipe.
 # PosTool
 Crafting recipe:
 ```
