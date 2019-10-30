@@ -9,8 +9,8 @@ postool.showConfigFormspec = function(oPlayer)
 		return
 	end
 
-	local sFormspec = 'size[3,3.25;]'
-		.. 'label[0.6,0;' .. S('PosTool HUD Configuration') .. ']'
+	local sFormspec = 'size[3.1,3.25;]'
+		.. 'label[-0.2,-0.2;' .. S('PosTool HUD Configuration') .. ']'
 		.. 'checkbox[1,0.25;bMain;' .. S('Main') .. ';' .. tostring(tDB.bMain) .. ']'
 	if postool.hasAdvancedTrains() then sFormspec = sFormspec
 		.. 'checkbox[0,0.75;bTrain;' .. postool.hudTitleTrain .. ';' .. tostring(tDB.tb[1]) .. ']'
@@ -83,4 +83,3 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 	postool.rebuildHud(oPlayer)
 
 end -- register_on_player_receive_fields
-
