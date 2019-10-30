@@ -234,21 +234,21 @@ postool.generateHud = function(oPlayer)
 	if bMesecons then
 	tDB.tIDs.meseconsUsageBG = oPlayer:hud_add({
 		hud_elem_type = 'statbar',
-		--name = 'postoolMeseconsUsageBG',
+		name = 'postoolMeseconsUsageBG',
 		position = HUD_POSITION,
 		offset = { x = 0, y = -18 },
 		text = 'mesecons_use_bg.png',
-		scale = HUD_SCALE, --{ x = 300, y = 1 },
+		scale = HUD_SCALE,
 		alignment = HUD_ALIGNMENT,
 		number = 3
 	})
 	tDB.tIDs.meseconsUsageFG = oPlayer:hud_add({
 		hud_elem_type = 'statbar',
-		--name = 'postoolMeseconsUsageFG',
+		name = 'postoolMeseconsUsageFG',
 		position = HUD_POSITION,
 		offset = { x = 0, y = -18 },
 		text = 'mesecons_use_fg.png',
-		scale = HUD_SCALE,--{ x = 50, y = 100 },
+		scale = HUD_SCALE,
 		alignment = HUD_ALIGNMENT,
 		number = 4
 	})
@@ -294,7 +294,7 @@ postool.updateHudMesecons = function(oPlayer)
 
 		sPenalty = sDetails .. sPenalty
 
-	end -- if show more details on this server
+	end -- if show more details
 
 	local sTexture
 	if 0.1 >= tCtx.penalty then
