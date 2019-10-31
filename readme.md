@@ -21,7 +21,7 @@ Invoke formspec with /postool
 
 ![](/doc/img/postool_HUD_config.png)
 
-Example display of HUD with above settings
+Example display of HUD
 
 ![](/doc/img/postool_HUD_display.png)
 
