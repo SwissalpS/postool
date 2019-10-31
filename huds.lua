@@ -4,6 +4,26 @@ local HUD_SCALE = { x = 100, y = 100 }
 
 -- hud id map (playername -> { playername = { tIDs = { hud-ids }, tb = { toggles }, ... )
 postool.tHudDB = {}
+-- holds the train time portion that is same for all players
+postool.sTrain = ''
+-- all players have same time
+postool.sTime = ''
+
+
+postool.getPlayerTables = function(oPlayer)
+
+	local sName = oPlayer:get_player_name()
+
+	local tDB = postool.tHudDB[sName]
+
+	if not tDB then
+		postool.generateHud(oPlayer)
+		tDB = postool.tHudDB[sName]
+	end
+
+	return tDB.tIDs, tDB.tb, tDB.bMain
+
+end -- getPlayerTables
 
 
 -- 'hide' an element
@@ -29,18 +49,10 @@ end -- setHudYoffset
 -- toggle between left and right side of screen
 postool.toggleHudPosition = function(oPlayer)
 
-	local sName = oPlayer:get_player_name()
-
-	local tDB = postool.tHudDB[sName]
-
-	if not tDB then
-		-- should never happen
-		print('[postool]huds:toggleHudPosition: DB corruption!')
-		return
-	end
+	local tIDs, tb = postool.getPlayerTables(oPlayer)
 
 	-- get current definition
-	local tDef = oPlayer:hud_get(tDB.tIDs.time)
+	local tDef = oPlayer:hud_get(tIDs.time)
 
 	-- make new position
 	local tPosNew = {
@@ -49,7 +61,7 @@ postool.toggleHudPosition = function(oPlayer)
 	}
 
 	-- apply new position
-	for _, iID in pairs(tDB.tIDs) do
+	for _, iID in pairs(tIDs) do
 
 		oPlayer:hud_change(iID, 'position', tPosNew)
 
@@ -61,44 +73,36 @@ end -- toggleHudPosition
 -- recalculate y offset and clear if needed
 postool.rebuildHud = function(oPlayer)
 
-	local sName = oPlayer:get_player_name()
-
-	local tDB = postool.tHudDB[sName]
-
-	if not tDB then
-		-- should never happen
-		print('[postool]huds:rebuildHud: DB corruption!')
-		return
-	end
+	local tIDs, tb, bMain = postool.getPlayerTables(oPlayer)
 
 	local iY = 0
 	local iDiff = -18
-	local bOff = not tDB.bMain
+	local bOff = not bMain
 
-	local iID = tDB.tIDs.meseconsUsageBG
-	if tDB.tb[5] then
+	local iID = tIDs.meseconsUsageBG
+	if tb[5] then
 
 		iY = iY + (iDiff * 2)
 
 		if bOff then
 			clearHud(oPlayer, iID)
-			clearHud(oPlayer, tDB.tIDs.meseconsUsageFG)
-			clearHud(oPlayer, tDB.tIDs.meseconsPenalty)
+			clearHud(oPlayer, tIDs.meseconsUsageFG)
+			clearHud(oPlayer, tIDs.meseconsPenalty)
 		else
 			oPlayer:hud_change(iID, 'text', 'mesecons_use_bg.png')
-			oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'text', 'mesecons_use_fg.png')
+			oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', 'mesecons_use_fg.png')
 		end
 
 	else
 
 		clearHud(oPlayer, iID)
-		clearHud(oPlayer, tDB.tIDs.meseconsUsageFG)
-		clearHud(oPlayer, tDB.tIDs.meseconsPenalty)
+		clearHud(oPlayer, tIDs.meseconsUsageFG)
+		clearHud(oPlayer, tIDs.meseconsPenalty)
 
 	end -- mesecons
 
-	iID = tDB.tIDs.block
-	if tDB.tb[4] then
+	iID = tIDs.block
+	if tb[4] then
 
 		setHudYoffset(oPlayer, iID, iY)
 
@@ -112,8 +116,8 @@ postool.rebuildHud = function(oPlayer)
 
 	end -- block
 
-	iID = tDB.tIDs.node
-	if tDB.tb[3] then
+	iID = tIDs.node
+	if tb[3] then
 
 		setHudYoffset(oPlayer, iID, iY)
 
@@ -127,8 +131,8 @@ postool.rebuildHud = function(oPlayer)
 
 	end -- node
 
-	iID = tDB.tIDs.time
-	if tDB.tb[2] then
+	iID = tIDs.time
+	if tb[2] then
 
 		setHudYoffset(oPlayer, iID, iY)
 
@@ -142,8 +146,8 @@ postool.rebuildHud = function(oPlayer)
 
 	end -- time
 
-	iID = tDB.tIDs.trainTime
-	if tDB.tb[1] then
+	iID = tIDs.trainTime
+	if tb[1] then
 
 		setHudYoffset(oPlayer, iID, iY)
 
@@ -186,7 +190,7 @@ postool.generateHud = function(oPlayer)
 		},
 		bMain = true == postool.hudShowMain,
 		bDefaultPosition = true,
-		bFirstRun = true
+		iCountRuns = 0
 	}
 
 	if bAdvTrains then
@@ -274,11 +278,11 @@ end -- generatHud
 
 postool.updateHudMesecons = function(oPlayer)
 
-	local sName = oPlayer:get_player_name()
-	local tDB = postool.tHudDB[sName]
+	local tIDs, tb = postool.getPlayerTables(oPlayer)
 
 	-- not active or no mesecons at all
-	if not (tDB.tb[5] and tDB.tIDs.meseconsPenalty) then return end
+	-- we check for existance of hud-element rather than using function to check
+	if not (tb[5] and tIDs.meseconsPenalty) then return end
 
 	local tPos = oPlayer:get_pos()
 	local tCtx = mesecons_debug.get_context(tPos)
@@ -287,7 +291,7 @@ postool.updateHudMesecons = function(oPlayer)
 
 	local sPenalty = 'Penalty: ' .. tostring(math.floor(tCtx.penalty * 10) / 10) .. ' s'
 
-	if tDB.tb[6] then
+	if tb[6] then
 
 		local sDetails = 'Usage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
 						.. tostring(nPercent) .. '%) \n'
@@ -305,48 +309,47 @@ postool.updateHudMesecons = function(oPlayer)
 		sTexture = 'mesecons_use_fg_high.png' --0xFF0000
 	end
 
-	oPlayer:hud_change(tDB.tIDs.meseconsPenalty, 'text', sPenalty)
-	oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'text', sTexture)
+	oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
+	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
 	-- give a minimum to show, so can see red penalty even when no usage
-	oPlayer:hud_change(tDB.tIDs.meseconsUsageFG, 'number', math.max(8, nPercent * 3))
+	oPlayer:hud_change(tIDs.meseconsUsageFG, 'number', math.max(8, nPercent * 3))
 
 end -- updateHudMesecons
 
 
 -- show new text
-postool.updateHud = function(oPlayer, sTrain, sTime)
+postool.updateHud = function(oPlayer)
 
-	local sName = oPlayer:get_player_name()
-	local tDB = postool.tHudDB[sName]
+	local tIDs, tb, bMain = postool.getPlayerTables(oPlayer)
 
-	if tDB.tb[1] and tDB.tIDs.trainTime then
+	if tb[1] and tIDs.trainTime then
 
-		oPlayer:hud_change(tDB.tIDs.trainTime, 'text', sTrain)
+		oPlayer:hud_change(tIDs.trainTime, 'text', postool.sTrain)
 
 	end -- rwt
 
-	if tDB.tb[2] then
+	if tb[2] then
 
-		oPlayer:hud_change(tDB.tIDs.time, 'text', sTime)
+		oPlayer:hud_change(tIDs.time, 'text', postool.sTime)
 
 	end -- time
 
 	postool.updateHudMesecons(oPlayer)
 
 	-- need to get positon strings at all?
-	if not (tDB.tb[3] or tDB.tb[4]) then return end
+	if not (tb[3] or tb[4]) then return end
 
 	local sNode, sBlock = postool.getPositions(oPlayer)
 
-	if tDB.tb[3] then
+	if tb[3] then
 
-		oPlayer:hud_change(tDB.tIDs.node, 'text', sNode)
+		oPlayer:hud_change(tIDs.node, 'text', sNode)
 
 	end -- node
 
-	if tDB.tb[4] then
+	if tb[4] then
 
-		oPlayer:hud_change(tDB.tIDs.block, 'text', sBlock)
+		oPlayer:hud_change(tIDs.block, 'text', sBlock)
 
 	end -- block
 
@@ -369,7 +372,7 @@ postool.removeHud = function(oPlayer)
 	end
 
 	-- remove metadata
-	postool.tHudDB[sName] = nil
+	--postool.tHudDB[sName] = nil
 
 end -- removeHud
 
@@ -390,16 +393,19 @@ postool.register_globalstep = function()
 	iTimeNext = iTimeNow + postool.hudMinUpdateInterval
 
 	-- Update hud text that is the same for all players
-	local sTrain = postool.hudTitleTrain .. postool.getTimeTrain()
-	local sTime = postool.hudTitleTime .. postool.getTime()
+	postool.sTrain = postool.hudTitleTrain .. postool.getTimeTrain()
+	postool.sTime = postool.hudTitleTime .. postool.getTime()
 
+	local sName
+	local tDB
+	local bUpdate
 	for _, oPlayer in ipairs(minetest.get_connected_players()) do
 
-		local sName = oPlayer:get_player_name()
-
-		local tDB = postool.tHudDB[sName]
+		bUpdate = false
+		sName = oPlayer:get_player_name()
+		tDB = postool.tHudDB[sName]
 		if not tDB then
-			print('[postool]huds:globalstep: strange, no hud data for player: ' .. sName)
+print('[postool]huds:globalstep: strange, no hud data for player: ' .. sName)
 			postool.generateHud(oPlayer)
 			tDB = postool.tHudDB[sName]
 		end
@@ -411,16 +417,23 @@ postool.register_globalstep = function()
 --]]
 
 		-- is this the first run for this player?
-		if tDB.bFirstRun then
+		if 1 > tDB.iCountRuns then
+
+			tDB.iCountRuns = tDB.iCountRuns + 1
+
+		elseif 1 == tDB.iCountRuns then
 
 			postool.rebuildHud(oPlayer)
-			tDB.bFirstRun = false
+			tDB.iCountRuns = 4
+			if tDB.bMain then bUpdate = true end
 
 		-- check if player has turned on hud at all
 		elseif tDB.bMain then
+			bUpdate = true
+		end
 
-			postool.updateHud(oPlayer, sTrain, sTime)
-
+		if bUpdate then
+			postool.updateHud(oPlayer)
 		end
 
 	end -- loop players
