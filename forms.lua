@@ -33,8 +33,7 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 
 	if sFormName ~= sPosToolFormNameConfig then return end
 
-	local sName = oPlayer:get_player_name()
-	local tDB = postool.tHudDB[sName]
+	local tDB = postool.getPlayerTables(oPlayer, true)
 	if not tDB then
 		print('[postool]forms:on_player_receive_fields: Something is wrong with DB')
 		return
@@ -68,18 +67,21 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 
 	if nil ~= tFields.bMeseconsDetails then
 		tDB.tb[6] = 'true' == tFields.bMeseconsDetails
+		postool.savePlayerToggles(oPlayer)
 		return
 	end
 
 	-- Buttons also respond right away
 	if nil ~= tFields.butToggle then
 		postool.toggleHudPosition(oPlayer)
+		postool.savePlayerToggles(oPlayer)
 		return
 	end
 
 	-- There is also a 'quit = true' message when user presses Esc
 	if nil ~= tFields.quit then return end
 
+	postool.savePlayerToggles(oPlayer)
 	postool.rebuildHud(oPlayer)
 
 end -- register_on_player_receive_fields

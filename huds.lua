@@ -10,7 +10,52 @@ postool.sTrain = ''
 postool.sTime = ''
 
 
-postool.getPlayerTables = function(oPlayer)
+postool.readPlayerToggles = function(oPlayer)
+
+	local tMetaRef = oPlayer:get_meta()
+	local sFlags = tMetaRef:get_string('postoolHUDflags')
+
+	if '' == sFlags then
+		return {
+			true == postool.hudShowTrain,
+			true == postool.hudShowTime,
+			true == postool.hudShowNode,
+			true == postool.hudShowBlock,
+			true == postool.hudShowMesecons,
+			true == postool.hudShowMeseconsDetails
+		}, true == postool.hudShowMain, postool.hudPosX
+	end -- if has none yet
+
+	local tb = {}
+	for i = 2, #sFlags do
+		tb[i -1] = '1' == sFlags:sub(i, i)
+	end
+
+	return tb, '1' == sFlags:sub(1, 1), tMetaRef:get_float('postoolHUDx')
+
+end -- readPlayerToggles
+
+
+local function boolToString(b) if b then return '1' else return '0' end end
+postool.savePlayerToggles = function(oPlayer)
+
+	local _, tb, bMain, nX = postool.getPlayerTables(oPlayer)
+
+	local sOut = boolToString(bMain)
+	for _, b in ipairs(tb) do
+		sOut = sOut .. boolToString(b)
+	end
+
+	local tMetaRef = oPlayer:get_meta()
+	tMetaRef:set_string('postoolHUDflags', sOut)
+	tMetaRef:set_float('postoolHUDx', nX)
+
+end -- savePlayerToggles
+
+
+-- return the runtime cache for player
+-- if bRef == true then only a tableref is returned
+postool.getPlayerTables = function(oPlayer, bRef)
 
 	local sName = oPlayer:get_player_name()
 
@@ -21,7 +66,9 @@ postool.getPlayerTables = function(oPlayer)
 		tDB = postool.tHudDB[sName]
 	end
 
-	return tDB.tIDs, tDB.tb, tDB.bMain
+	if bRef then return tDB end
+
+	return tDB.tIDs, tDB.tb, tDB.bMain, tDB.nX
 
 end -- getPlayerTables
 
@@ -49,10 +96,10 @@ end -- setHudYoffset
 -- toggle between left and right side of screen
 postool.toggleHudPosition = function(oPlayer)
 
-	local tIDs, tb = postool.getPlayerTables(oPlayer)
+	local tDB = postool.getPlayerTables(oPlayer, true)
 
 	-- get current definition
-	local tDef = oPlayer:hud_get(tIDs.time)
+	local tDef = oPlayer:hud_get(tDB.tIDs.time)
 
 	-- make new position
 	local tPosNew = {
@@ -60,8 +107,10 @@ postool.toggleHudPosition = function(oPlayer)
 		y = tDef.position.y
 	}
 
+	tDB.nX = tPosNew.x
+
 	-- apply new position
-	for _, iID in pairs(tIDs) do
+	for _, iID in pairs(tDB.tIDs) do
 
 		oPlayer:hud_change(iID, 'position', tPosNew)
 
@@ -178,18 +227,15 @@ postool.generateHud = function(oPlayer)
 	local bAdvTrains = postool.hasAdvancedTrains()
 	local bMesecons = postool.hasMeseconsDebug()
 
+	local tb, bMain, nX = postool.readPlayerToggles(oPlayer)
+	local tPosition = HUD_POSITION
+	tPosition.x = nX
+
 	local tDB = {
 		tIDs = {},
-		tb = {
-			true == postool.hudShowTrain,
-			true == postool.hudShowTime,
-			true == postool.hudShowNode,
-			true == postool.hudShowBlock,
-			true == postool.hudShowMesecons,
-			true == postool.hudShowMeseconsDetails
-		},
-		bMain = true == postool.hudShowMain,
-		bDefaultPosition = true,
+		tb = tb,
+		bMain = bMain,
+		nX = nX,
 		iCountRuns = 0
 	}
 
@@ -197,7 +243,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.trainTime = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolTrainTime',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = -54 },
 		text = 'Initializing...',
 		scale = HUD_SCALE,
@@ -208,7 +254,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.time = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolTime',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = -36 },
 		text = 'Initializing...',
 		scale = HUD_SCALE,
@@ -218,7 +264,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.node = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolNode',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = -18 },
 		text = 'Initializing...',
 		scale = HUD_SCALE,
@@ -228,7 +274,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.block = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolBlock',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = 0 },
 		text = 'Initializing...',
 		scale = HUD_SCALE,
@@ -239,7 +285,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.meseconsUsageBG = oPlayer:hud_add({
 		hud_elem_type = 'statbar',
 		name = 'postoolMeseconsUsageBG',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = -18 },
 		text = 'mesecons_use_bg.png',
 		scale = HUD_SCALE,
@@ -249,7 +295,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.meseconsUsageFG = oPlayer:hud_add({
 		hud_elem_type = 'statbar',
 		name = 'postoolMeseconsUsageFG',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = -18 },
 		text = 'mesecons_use_fg.png',
 		scale = HUD_SCALE,
@@ -259,7 +305,7 @@ postool.generateHud = function(oPlayer)
 	tDB.tIDs.meseconsPenalty = oPlayer:hud_add({
 		hud_elem_type = 'text',
 		name = 'postoolMeseconsPenalty',
-		position = HUD_POSITION,
+		position = tPosition,
 		offset = { x = 0, y = 0 },
 		text = 'Initializing...',
 		scale = HUD_SCALE,
@@ -357,6 +403,7 @@ end -- updateHud
 
 
 -- called after player leaves
+-- does not seem to really be called that often
 -- remove hud elements
 postool.removeHud = function(oPlayer)
 
@@ -372,14 +419,13 @@ postool.removeHud = function(oPlayer)
 	end
 
 	-- remove metadata
-	--postool.tHudDB[sName] = nil
+	postool.tHudDB[sName] = nil
 
 end -- removeHud
 
 
 -- track time of last call
 local iTimeNext = 0
-
 
 postool.register_globalstep = function()
 
