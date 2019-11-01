@@ -13,10 +13,12 @@ minetest.register_craftitem('postool:wand', {
 		return postool.show(oPlayer, oPointedThing)
 	end,
 
+--[[
 	on_place = function(oItemstack, oPlayer, oPointedThing)
 		return postool.show(oPlayer, oPointedThing)
 	end
-
+--]]
+		
 }) -- register_craftitem
 
 
