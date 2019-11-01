@@ -25,6 +25,8 @@ Example display of HUD
 
 ![](/doc/img/postool_HUD_display.png)
 
+The progress-bar shows the mesecons usage in current block. It changes colour based on penalty.
+
 # PosTool
 Crafting recipe:
 ```
