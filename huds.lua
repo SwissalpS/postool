@@ -403,7 +403,6 @@ end -- updateHud
 
 
 -- called after player leaves
--- does not seem to really be called that often
 -- remove hud elements
 postool.removeHud = function(oPlayer)
 
@@ -451,16 +450,9 @@ postool.register_globalstep = function()
 		sName = oPlayer:get_player_name()
 		tDB = postool.tHudDB[sName]
 		if not tDB then
-print('[postool]huds:globalstep: strange, no hud data for player: ' .. sName)
 			postool.generateHud(oPlayer)
 			tDB = postool.tHudDB[sName]
 		end
---[[
-		if not tDB.tIDs then
-			print('[postool]huds:globalstep: very strange, no hud IDs for player: ' .. sName)
-			return
-		end
---]]
 
 		-- is this the first run for this player?
 		if 1 > tDB.iCountRuns then
