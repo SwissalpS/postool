@@ -45,7 +45,6 @@ dofile(sMP .. '/chatcommands.lua')
 dofile(sMP .. '/tool.lua')
 
 minetest.register_on_joinplayer(function(player) postool.generateHud(player) end)
--- not sure this is executed reliably
 minetest.register_on_leaveplayer(function(player) minetest.after(1, postool.removeHud, player) end)
 minetest.register_globalstep(postool.register_globalstep)
 minetest.register_chatcommand('postool', postool.chatcommand)
