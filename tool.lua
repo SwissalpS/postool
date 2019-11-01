@@ -3,19 +3,19 @@ minetest.register_craftitem('postool:wand', {
 
 	description = 'PosTool',
 	inventory_image = 'postool_wand.png',
-    groups = {},
-    wield_image = '',
-    wield_scale = { x = 1, y = 1, z = 1 },
-    liquids_pointable = true,
-    node_placement_prediction = nil,
-
+	groups = {},
+	wield_image = '',
+	wield_scale = { x = 1, y = 1, z = 1 },
+	liquids_pointable = true,
+	node_placement_prediction = nil,
+		
 	on_use = function(oItemstack, oPlayer, oPointedThing)
 		return postool.show(oPlayer, oPointedThing)
 	end,
 
-    on_place = function(oItemstack, oPlayer, oPointedThing)
+	on_place = function(oItemstack, oPlayer, oPointedThing)
 		return postool.show(oPlayer, oPointedThing)
-    end
+	end
 
 }) -- register_craftitem
 
