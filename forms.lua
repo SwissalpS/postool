@@ -2,25 +2,21 @@ local sPosToolFormNameConfig = 'postoolConfig'
 
 postool.showConfigFormspec = function(oPlayer)
 
+	local tb, bMain, _ = postool.readPlayerToggles(oPlayer)
 	local sName = oPlayer:get_player_name()
-	local tDB = postool.tHudDB[sName]
-	if not tDB then
-		print('[postool]forms:showConfigFormspec: Something is wrong with DB')
-		return
-	end
 
 	local sFormspec = 'size[3.1,3.25;]'
 		.. 'label[-0.2,-0.2;' .. S('PosTool HUD Configuration') .. ']'
-		.. 'checkbox[1,0.25;bMain;' .. S('Main') .. ';' .. tostring(tDB.bMain) .. ']'
+		.. 'checkbox[1,0.25;bMain;' .. S('Main') .. ';' .. tostring(bMain) .. ']'
 	if postool.hasAdvancedTrains() then sFormspec = sFormspec
-		.. 'checkbox[0,0.75;bTrain;' .. postool.hudTitleTrain .. ';' .. tostring(tDB.tb[1]) .. ']'
+		.. 'checkbox[0,0.75;bTrain;' .. postool.hudTitleTrain .. ';' .. tostring(tb[1]) .. ']'
 	end sFormspec = sFormspec
-		.. 'checkbox[2,0.75;bTime;' .. postool.hudTitleTime .. ';' .. tostring(tDB.tb[2]) .. ']'
-		.. 'checkbox[0,1.25;bNode;' .. postool.hudTitleNode .. ';' .. tostring(tDB.tb[3]) .. ']'
-		.. 'checkbox[2,1.25;bBlock;' .. postool.hudTitleBlock .. ';' .. tostring(tDB.tb[4]) .. ']'
+		.. 'checkbox[2,0.75;bTime;' .. postool.hudTitleTime .. ';' .. tostring(tb[2]) .. ']'
+		.. 'checkbox[0,1.25;bNode;' .. postool.hudTitleNode .. ';' .. tostring(tb[3]) .. ']'
+		.. 'checkbox[2,1.25;bBlock;' .. postool.hudTitleBlock .. ';' .. tostring(tb[4]) .. ']'
 	if postool.hasMeseconsDebug() then sFormspec = sFormspec
-		.. 'checkbox[0,1.75;bMesecons;' .. postool.hudTitleMesecons .. ';' .. tostring(tDB.tb[5]) .. ']'
-		.. 'checkbox[2,1.75;bMeseconsDetails;' .. S('Details') .. ';' .. tostring(tDB.tb[6]) .. ']'
+		.. 'checkbox[0,1.75;bMesecons;' .. postool.hudTitleMesecons .. ';' .. tostring(tb[5]) .. ']'
+		.. 'checkbox[2,1.75;bMeseconsDetails;' .. S('Details') .. ';' .. tostring(tb[6]) .. ']'
 	end sFormspec = sFormspec
 		.. 'button[0,2.5;3,1;butToggle;' .. S('Toggle Position') .. ']'
 
