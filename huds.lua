@@ -10,6 +10,8 @@ postool.sTrain = ''
 postool.sTime = ''
 
 
+-- returns tb (flags), bMain, nX (X-offset)
+-- from player meta
 postool.readPlayerToggles = function(oPlayer)
 
 	local tMetaRef = oPlayer:get_meta()
@@ -62,7 +64,8 @@ postool.getPlayerTables = function(oPlayer, bRef)
 	local tDB = postool.tHudDB[sName]
 
 	if not tDB then
-		postool.generateHud(oPlayer)
+		print('[postool]getPlayerTables: this should never happen')
+		postool.initHud(oPlayer);
 		tDB = postool.tHudDB[sName]
 	end
 
@@ -73,6 +76,7 @@ postool.getPlayerTables = function(oPlayer, bRef)
 end -- getPlayerTables
 
 
+--[[
 -- 'hide' an element
 local function clearHud(oPlayer, iID)
 
@@ -81,6 +85,7 @@ local function clearHud(oPlayer, iID)
 	oPlayer:hud_change(iID, 'text', '')
 
 end -- clearHud
+--]]
 
 
 -- position element vertically
@@ -98,16 +103,13 @@ postool.toggleHudPosition = function(oPlayer)
 
 	local tDB = postool.getPlayerTables(oPlayer, true)
 
-	-- get current definition
-	local tDef = oPlayer:hud_get(tDB.tIDs.time)
+	tDB.nX = 1 - tDB.nX
 
 	-- make new position
 	local tPosNew = {
-		x = 1 - tDef.position.x,
-		y = tDef.position.y
+		x = tDB.nX,
+		y = HUD_POSITION.y
 	}
-
-	tDB.nX = tPosNew.x
 
 	-- apply new position
 	for _, iID in pairs(tDB.tIDs) do
@@ -122,98 +124,204 @@ end -- toggleHudPosition
 -- recalculate y offset and clear if needed
 postool.rebuildHud = function(oPlayer)
 
-	local tIDs, tb, bMain = postool.getPlayerTables(oPlayer)
+	local tIDs, tb, bMain, nX = postool.getPlayerTables(oPlayer)
+
+	if not bMain then
+		removeHudElements(oPlayer)
+		return
+	end -- if turned off
+
+
+	local tPosition = HUD_POSITION
+	tPosition.x = nX
 
 	local iY = 0
 	local iDiff = -18
-	local bOff = not bMain
+
+	local bAdvTrains = postool.hasAdvancedTrains()
+	local bMesecons = postool.hasMeseconsDebug()
 
 	local iID = tIDs.meseconsUsageBG
-	if tb[5] then
+	if tb[5] and bMesecons then
+
+		if nil == iID then
+			tIDs.meseconsUsageBG = oPlayer:hud_add({
+				hud_elem_type = 'statbar',
+				name = 'postoolMeseconsUsageBG',
+				position = tPosition,
+				offset = { x = 0, y = iY -23 },
+				text = 'mesecons_use_bg.png',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = 3
+			})
+			tIDs.meseconsUsageFG = oPlayer:hud_add({
+				hud_elem_type = 'statbar',
+				name = 'postoolMeseconsUsageFG',
+				position = tPosition,
+				offset = { x = 0, y = iY -23 },
+				text = 'mesecons_use_fg.png',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = 4
+			})
+			tIDs.meseconsPenalty = oPlayer:hud_add({
+				hud_elem_type = 'text',
+				name = 'postoolMeseconsPenalty',
+				position = tPosition,
+				offset = { x = 0, y = 0 },
+				text = 'Initializing...',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = postool.hudColour
+			})
+		end -- if not yet generated
 
 		iY = iY + (iDiff * 2)
 
-		if bOff then
-			clearHud(oPlayer, iID)
-			clearHud(oPlayer, tIDs.meseconsUsageFG)
-			clearHud(oPlayer, tIDs.meseconsPenalty)
-		else
-			oPlayer:hud_change(iID, 'text', 'mesecons_use_bg.png')
-			oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', 'mesecons_use_fg.png')
-		end
+	elseif nil ~= iID then
 
-	else
-
-		clearHud(oPlayer, iID)
-		clearHud(oPlayer, tIDs.meseconsUsageFG)
-		clearHud(oPlayer, tIDs.meseconsPenalty)
+		oPlayer:hud_remove(iID)
+		tIDs.meseconsUsageBG = nil
+		oPlayer:hud_remove(tIDs.meseconsUsageFG)
+		tIDs.meseconsUsageFG = nil
+		oPlayer:hud_remove(tIDs.meseconsPenalty)
+		tIDs.meseconsPenalty = nil
 
 	end -- mesecons
 
 	iID = tIDs.block
 	if tb[4] then
-
-		setHudYoffset(oPlayer, iID, iY)
+		if nil == iID then
+			tIDs.block = oPlayer:hud_add({
+				hud_elem_type = 'text',
+				name = 'postoolBlock',
+				position = tPosition,
+				offset = { x = 0, y = iY },
+				text = 'Initializing...',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = postool.hudColour
+			})
+		else
+			setHudYoffset(oPlayer, iID, iY)
+		end
 
 		iY = iY + iDiff
 
-		if bOff then clearHud(oPlayer, iID) end
+	elseif nil ~= iID then
 
-	else
-
-		clearHud(oPlayer, iID)
+		oPlayer:hud_remove(iID)
+		tIDs.block = nil
 
 	end -- block
 
 	iID = tIDs.node
 	if tb[3] then
 
-		setHudYoffset(oPlayer, iID, iY)
+		if nil == iID then
+			tIDs.node = oPlayer:hud_add({
+				hud_elem_type = 'text',
+				name = 'postoolNode',
+				position = tPosition,
+				offset = { x = 0, y = iY },
+				text = 'Initializing...',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = postool.hudColour
+			})
+		else
+			setHudYoffset(oPlayer, iID, iY)
+		end
 
 		iY = iY + iDiff
 
-		if bOff then clearHud(oPlayer, iID) end
+	elseif nil ~= iID then
 
-	else
-
-		clearHud(oPlayer, iID)
+		oPlayer:hud_remove(iID)
+		tIDs.node = nil
 
 	end -- node
 
 	iID = tIDs.time
 	if tb[2] then
 
-		setHudYoffset(oPlayer, iID, iY)
+		if nil == iID then
+			tIDs.time = oPlayer:hud_add({
+				hud_elem_type = 'text',
+				name = 'postoolTime',
+				position = tPosition,
+				offset = { x = 0, y = iY },
+				text = 'Initializing...',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = postool.hudColour
+			})
+		else
+			setHudYoffset(oPlayer, iID, iY)
+		end
 
 		iY = iY + iDiff
 
-		if bOff then clearHud(oPlayer, iID) end
+	elseif nil ~= iID then
 
-	else
-
-		clearHud(oPlayer, iID)
+		oPlayer:hud_remove(iID)
+		tIDs.time = nil
 
 	end -- time
 
 	iID = tIDs.trainTime
-	if tb[1] then
+	if tb[1] and bAdvTrains then
 
-		setHudYoffset(oPlayer, iID, iY)
+		if nil == iID then
+			tIDs.trainTime = oPlayer:hud_add({
+				hud_elem_type = 'text',
+				name = 'postoolTrainTime',
+				position = tPosition,
+				offset = { x = 0, y = iY },
+				text = 'Initializing...',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = postool.hudColour
+			})
+		else
+			setHudYoffset(oPlayer, iID, iY)
+		end
 
 		iY = iY + iDiff
 
-		if bOff then clearHud(oPlayer, iID) end
+	elseif nil ~= iID then
 
-	else
-
-		clearHud(oPlayer, iID)
+		oPlayer:hud_remove(iID)
+		tIDs.trainTime = nil
 
 	end -- train
 
 end -- rebuildHud
 
 
--- called when player joins
+-- called when player joins or activates the formspec/hud
+-- initialize the cache
+postool.initHud = function(oPlayer)
+
+	local sName = oPlayer:get_player_name()
+
+	-- already set up?
+	if postool.tHudDB[sName] then return end
+
+	local tb, bMain, nX = postool.readPlayerToggles(oPlayer)
+
+	postool.tHudDB[sName] = {
+		tIDs = {},
+		tb = tb,
+		bMain = bMain,
+		nX = nX,
+		iCountRuns = 0
+	}
+
+end -- initHud
+
+--[[
 -- initialize the hud elements
 postool.generateHud = function(oPlayer)
 
@@ -228,8 +336,9 @@ postool.generateHud = function(oPlayer)
 	local bMesecons = postool.hasMeseconsDebug()
 
 	local tb, bMain, nX = postool.readPlayerToggles(oPlayer)
-	local tPosition = HUD_POSITION
-	tPosition.x = nX
+
+	-- no need to continue, player has not activated yet
+	if not bMain then return end
 
 	local tDB = {
 		tIDs = {},
@@ -238,6 +347,9 @@ postool.generateHud = function(oPlayer)
 		nX = nX,
 		iCountRuns = 0
 	}
+
+	local tPosition = HUD_POSITION
+	tPosition.x = nX
 
 	if bAdvTrains then
 	tDB.tIDs.trainTime = oPlayer:hud_add({
@@ -320,7 +432,7 @@ postool.generateHud = function(oPlayer)
 	--postool.rebuildHud(oPlayer)
 
 end -- generatHud
-
+--]]
 
 postool.updateHudMesecons = function(oPlayer)
 
@@ -339,7 +451,7 @@ postool.updateHudMesecons = function(oPlayer)
 
 	if tb[6] then
 
-		local sDetails = 'Usage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
+		local sDetails = '\nUsage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
 						.. tostring(nPercent) .. '%) \n'
 
 		sPenalty = sDetails .. sPenalty
@@ -374,7 +486,7 @@ postool.updateHud = function(oPlayer)
 
 	end -- rwt
 
-	if tb[2] then
+	if tb[2] and tIDs.time then
 
 		oPlayer:hud_change(tIDs.time, 'text', postool.sTime)
 
@@ -387,13 +499,13 @@ postool.updateHud = function(oPlayer)
 
 	local sNode, sBlock = postool.getPositions(oPlayer)
 
-	if tb[3] then
+	if tb[3] and tIDs.node then
 
 		oPlayer:hud_change(tIDs.node, 'text', sNode)
 
 	end -- node
 
-	if tb[4] then
+	if tb[4] and tIDs.block then
 
 		oPlayer:hud_change(tIDs.block, 'text', sBlock)
 
@@ -402,22 +514,33 @@ postool.updateHud = function(oPlayer)
 end -- updateHud
 
 
--- called after player leaves
--- remove hud elements
-postool.removeHud = function(oPlayer)
+-- remove hud elements and return players name
+postool.removeHudElements = function(oPlayer)
 
 	local sName = oPlayer:get_player_name()
 	local tDB = postool.tHudDB[sName]
-	if not tDB then return end
+	if not tDB then return sName end
 
 	-- remove each hud
-	for _, iID in pairs(tDB.tIDs) do
+	for i, iID in pairs(tDB.tIDs) do
 
 		oPlayer:hud_remove(iID)
+		tDB.tIDs[i] = nil
 
 	end
 
-	-- remove metadata
+	return sName
+
+end -- removeHudElements
+
+
+-- called after player leaves
+postool.removeHud = function(oPlayer)
+
+	-- remove hud elements
+	local sName = removeHudElements(oPlayer)
+
+	-- remove cache
 	postool.tHudDB[sName] = nil
 
 end -- removeHud
@@ -450,29 +573,35 @@ postool.register_globalstep = function()
 		sName = oPlayer:get_player_name()
 		tDB = postool.tHudDB[sName]
 		if not tDB then
-			postool.generateHud(oPlayer)
-			tDB = postool.tHudDB[sName]
-		end
+			print('[postool]register_globalstep: player not yet registered, globalstep fired before on join player has run')
+			--postool.generateHud(oPlayer)
+			--tDB = postool.tHudDB[sName]
 
-		-- is this the first run for this player?
-		if 1 > tDB.iCountRuns then
+		else
 
-			tDB.iCountRuns = tDB.iCountRuns + 1
+			-- is this the first run for this player?
+			if 1 > tDB.iCountRuns then
 
-		elseif 1 == tDB.iCountRuns then
+				tDB.iCountRuns = tDB.iCountRuns + 1
 
-			postool.rebuildHud(oPlayer)
-			tDB.iCountRuns = 4
-			if tDB.bMain then bUpdate = true end
+			elseif 1 == tDB.iCountRuns then
 
-		-- check if player has turned on hud at all
-		elseif tDB.bMain then
-			bUpdate = true
-		end
+				tDB.iCountRuns = 4
+				if tDB.bMain then
+					postool.rebuildHud(oPlayer)
+					bUpdate = true
+				end
 
-		if bUpdate then
-			postool.updateHud(oPlayer)
-		end
+			-- check if player has turned on hud at all
+			elseif tDB.bMain then
+				bUpdate = true
+			end
+
+			if bUpdate then
+				postool.updateHud(oPlayer)
+			end
+
+		end -- if got entry at all
 
 	end -- loop players
 

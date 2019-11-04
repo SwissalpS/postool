@@ -39,6 +39,11 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 	-- we get a table with just one element in it.
 	if nil ~= tFields.bMain then
 		tDB.bMain = 'true' == tFields.bMain
+		if not tDB.bMain then
+			postool.savePlayerToggles(oPlayer)
+			postool.removeHudElements(oPlayer)
+			return
+		end -- if turned off
 	end
 
 	if nil ~= tFields.bTrain then
