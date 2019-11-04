@@ -76,18 +76,6 @@ postool.getPlayerTables = function(oPlayer, bRef)
 end -- getPlayerTables
 
 
---[[
--- 'hide' an element
-local function clearHud(oPlayer, iID)
-
-	if nil == iID then return end
-
-	oPlayer:hud_change(iID, 'text', '')
-
-end -- clearHud
---]]
-
-
 -- position element vertically
 local function setHudYoffset(oPlayer, iID, iY)
 
@@ -321,118 +309,6 @@ postool.initHud = function(oPlayer)
 
 end -- initHud
 
---[[
--- initialize the hud elements
-postool.generateHud = function(oPlayer)
-
-	local sName = oPlayer:get_player_name()
-
-	if postool.tHudDB[sName] then
-		-- already set up
-		return
-	end
-
-	local bAdvTrains = postool.hasAdvancedTrains()
-	local bMesecons = postool.hasMeseconsDebug()
-
-	local tb, bMain, nX = postool.readPlayerToggles(oPlayer)
-
-	-- no need to continue, player has not activated yet
-	if not bMain then return end
-
-	local tDB = {
-		tIDs = {},
-		tb = tb,
-		bMain = bMain,
-		nX = nX,
-		iCountRuns = 0
-	}
-
-	local tPosition = HUD_POSITION
-	tPosition.x = nX
-
-	if bAdvTrains then
-	tDB.tIDs.trainTime = oPlayer:hud_add({
-		hud_elem_type = 'text',
-		name = 'postoolTrainTime',
-		position = tPosition,
-		offset = { x = 0, y = -54 },
-		text = 'Initializing...',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = postool.hudColour
-	})
-	end -- if got trains
-	tDB.tIDs.time = oPlayer:hud_add({
-		hud_elem_type = 'text',
-		name = 'postoolTime',
-		position = tPosition,
-		offset = { x = 0, y = -36 },
-		text = 'Initializing...',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = postool.hudColour
-	})
-	tDB.tIDs.node = oPlayer:hud_add({
-		hud_elem_type = 'text',
-		name = 'postoolNode',
-		position = tPosition,
-		offset = { x = 0, y = -18 },
-		text = 'Initializing...',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = postool.hudColour
-	})
-	tDB.tIDs.block = oPlayer:hud_add({
-		hud_elem_type = 'text',
-		name = 'postoolBlock',
-		position = tPosition,
-		offset = { x = 0, y = 0 },
-		text = 'Initializing...',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = postool.hudColour
-	})
-	if bMesecons then
-	tDB.tIDs.meseconsUsageBG = oPlayer:hud_add({
-		hud_elem_type = 'statbar',
-		name = 'postoolMeseconsUsageBG',
-		position = tPosition,
-		offset = { x = 0, y = -18 },
-		text = 'mesecons_use_bg.png',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = 3
-	})
-	tDB.tIDs.meseconsUsageFG = oPlayer:hud_add({
-		hud_elem_type = 'statbar',
-		name = 'postoolMeseconsUsageFG',
-		position = tPosition,
-		offset = { x = 0, y = -18 },
-		text = 'mesecons_use_fg.png',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = 4
-	})
-	tDB.tIDs.meseconsPenalty = oPlayer:hud_add({
-		hud_elem_type = 'text',
-		name = 'postoolMeseconsPenalty',
-		position = tPosition,
-		offset = { x = 0, y = 0 },
-		text = 'Initializing...',
-		scale = HUD_SCALE,
-		alignment = HUD_ALIGNMENT,
-		number = postool.hudColour
-	})
-	end -- if got mesecons_debug
-
-	postool.tHudDB[sName] = tDB
-
-	-- this had no effect, so we use first-run-method
-	--postool.rebuildHud(oPlayer)
-
-end -- generatHud
---]]
 
 postool.updateHudMesecons = function(oPlayer)
 
@@ -574,8 +450,6 @@ postool.register_globalstep = function()
 		tDB = postool.tHudDB[sName]
 		if not tDB then
 			print('[postool]register_globalstep: player not yet registered, globalstep fired before on join player has run')
-			--postool.generateHud(oPlayer)
-			--tDB = postool.tHudDB[sName]
 
 		else
 
