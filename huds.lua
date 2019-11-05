@@ -414,7 +414,7 @@ end -- removeHudElements
 postool.removeHud = function(oPlayer)
 
 	-- remove hud elements
-	local sName = removeHudElements(oPlayer)
+	local sName = postool.removeHudElements(oPlayer)
 
 	-- remove cache
 	postool.tHudDB[sName] = nil
