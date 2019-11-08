@@ -92,7 +92,7 @@ postool.toggleHudPosition = function(oPlayer)
 
 	local tDB = postool.getPlayerTables(oPlayer, true)
 
-	tDB.nX = 1 - tDB.nX
+	tDB.nX = math.min(0.99999, math.max(0.00001, 1 - tDB.nX))
 
 	-- make new position
 	local tPosNew = {
