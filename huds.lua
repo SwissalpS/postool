@@ -423,6 +423,33 @@ postool.removeHud = function(oPlayer)
 end -- removeHud
 
 
+-- called after player has left
+postool.removeHudByName = function(sName)
+
+	-- there is no point in trying to get
+	-- player object, as this function is called
+	-- after log-out
+
+	if sName and 0 < #sName then
+
+		-- remove cache
+		postool.tHudDB[sName] = nil
+
+	end
+
+end -- removeHudByName
+
+
+-- called when player is leaving
+postool.leavePlayerHud = function(oPlayer)
+
+	local sName = oPlayer:get_player_name()
+
+	minetest.after(1, postool.removeHudByName, sName)
+
+end -- leavePlayerHud
+
+
 -- track time of last call
 local iTimeNext = 0
 
