@@ -56,6 +56,18 @@ postool.savePlayerToggles = function(oPlayer)
 end -- savePlayerToggles
 
 
+-- return to default values
+postool.resetHud = function(oPlayer)
+
+	local sName = postool.removeHud(oPlayer)
+
+	oPlayer:get_meta():set_string('postoolHUDflags', '')
+
+	postool.initHud(oPlayer)
+
+end -- resetHud
+
+
 -- return the runtime cache for player
 -- if bRef == true then only a tableref is returned
 postool.getPlayerTables = function(oPlayer, bRef)

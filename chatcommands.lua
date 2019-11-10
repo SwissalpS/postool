@@ -9,7 +9,11 @@ postool.chatcommand = {
 			return false, S('Player not found')
 		end
 
-		postool.showConfigFormspec(oPlayer)
+		if 'resethud' == string.lower(sParam) then
+			postool.resetHud(oPlayer)
+		else
+			postool.showConfigFormspec(oPlayer)
+		end
 
 	end
 }
