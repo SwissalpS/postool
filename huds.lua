@@ -18,6 +18,7 @@ postool.readPlayerToggles = function(oPlayer)
 	local sFlags = tMetaRef:get_string('postoolHUDflags')
 
 	if '' == sFlags then
+		tMetaRef:set_float('postoolHUDx', postool.hudPosX)
 		return {
 			true == postool.hudShowTrain,
 			true == postool.hudShowTime,
