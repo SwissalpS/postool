@@ -115,7 +115,7 @@ postool.rebuildHud = function(oPlayer)
 	local tIDs, tb, bMain, nX = postool.getPlayerTables(oPlayer)
 
 	if not bMain then
-		removeHudElements(oPlayer)
+		postool.removeHudElements(oPlayer)
 		return
 	end -- if turned off
 
