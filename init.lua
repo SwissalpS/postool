@@ -17,17 +17,19 @@ postool = {
 	hudTitleBlock = minetest.settings:get('postool.hud.titleblock') or S('Block') .. ': ',
 	hudTitleMesecons = minetest.settings:get('postool.hud.titlemesecons') or S('Mesecons') .. ': ',
 	hudTitleTrainNA = minetest.settings:get('postool.hud.titletrainna') or S('advtrains not enabled'),
-	hudShowMain = 1 == tonumber(minetest.settings:get('postool.hud.defaultshowmain')),
-	hudShowTrain = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowtrain')) or 0),
-	hudShowTime = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowtime')) or 0),
-	hudShowNode = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshownode')) or 1),
-	hudShowBlock = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowblock')) or 1),
-	hudShowMesecons = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowmesecons')) or 0),
-	hudShowMeseconsDetails = 1 == (tonumber(minetest.settings:get('postool.hud.defaultshowmeseconsdetails')) or 0),
+	hudShowMain = minetest.settings:get_bool('postool.hud.defaultshowmain') or false,
+	hudShowTrain = minetest.settings:get_bool('postool.hud.defaultshowtrain') or false,
+	hudShowTime = minetest.settings:get_bool('postool.hud.defaultshowtime') or false,
+	hudShowNode = minetest.settings:get_bool('postool.hud.defaultshownode'),
+	hudShowBlock = minetest.settings:get_bool('postool.hud.defaultshowblock'),
+	hudShowMesecons = minetest.settings:get_bool('postool.hud.defaultshowmesecons') or false,
+	hudShowMeseconsDetails = minetest.settings:get_bool('postool.hud.defaultshowmeseconsdetails') or false,
 	-- wait at least this long before updating hud
 	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
 	toolGridDisplayDuration = tonumber(minetest.settings:get('postool.tool.griddisplayduration') or 12)
 }
+if nil == postool.hudShowNode then postool.hudShowNode = true end
+if nil == postool.hudShowBlock then postool.hudShowBlock = true end
 
 postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
 
