@@ -167,7 +167,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				size = { x = 1, y = HUD_STATBAR_SIZE.y },
 				alignment = HUD_ALIGNMENT,
-				number = 4
+				number = 3
 			})
 			tIDs.meseconsPenalty = oPlayer:hud_add({
 				hud_elem_type = 'text',
