@@ -1,7 +1,7 @@
 local HUD_POSITION = { x = postool.hudPosX, y = postool.hudPosY }
 local HUD_ALIGNMENT = { x = 1, y = 0 }
 local HUD_SCALE = { x = 100, y = 100 }
-postool.HUD_STATBAR_SIZE = { x = 160, y = 18 }
+local HUD_STATBAR_SIZE = { x = 160, y = 18 }
 
 -- hud id map (playername -> { playername = { tIDs = { hud-ids }, tb = { toggles }, ... )
 postool.tHudDB = {}
@@ -154,7 +154,7 @@ postool.rebuildHud = function(oPlayer)
 				offset = { x = -2, y = iY - 27 },
 				text = 'mesecons_use_fg.png',
 				scale = HUD_SCALE,
-				size = { x = 1, y = postool.HUD_STATBAR_SIZE.y },
+				size = { x = 1, y = HUD_STATBAR_SIZE.y },
 				alignment = HUD_ALIGNMENT,
 				number = 4
 			})
@@ -351,8 +351,8 @@ postool.updateHudMesecons = function(oPlayer)
 	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
 	-- give a minimum to show, so can see red penalty even when no usage
 	oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
-		x = math.max(8, .01 * nPercent * postool.HUD_STATBAR_SIZE.x),
-		y = postool.HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
+		x = math.max(8, .01 * nPercent * HUD_STATBAR_SIZE.x),
+		y = HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
 	})
 end -- updateHudMesecons
 
