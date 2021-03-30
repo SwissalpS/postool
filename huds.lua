@@ -167,7 +167,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				size = { x = 1, y = HUD_STATBAR_SIZE.y },
 				alignment = HUD_ALIGNMENT,
-				number = 4
+				number = 3
 			})
 			tIDs.meseconsPenalty = oPlayer:hud_add({
 				hud_elem_type = 'text',
@@ -363,8 +363,8 @@ postool.updateHudMesecons = function(oPlayer)
 	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
 	-- give a minimum to show, so can see red penalty even when no usage
 	oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
-		x = math.max(8, .01 * nPercent * HUD_STATBAR_SIZE.x),
-		y = HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
+		x = math.max(8, math.min(HUD_STATBAR_SIZE.x, .01 * nPercent * HUD_STATBAR_SIZE.x)),
+		y = HUD_STATBAR_SIZE.y
 	})
 end -- updateHudMesecons
 
