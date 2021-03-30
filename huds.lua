@@ -1,6 +1,7 @@
 local HUD_POSITION = { x = postool.hudPosX, y = postool.hudPosY }
 local HUD_ALIGNMENT = { x = 1, y = 0 }
 local HUD_SCALE = { x = 100, y = 100 }
+local HUD_STATBAR_SIZE = { x = 160, y = 18 }
 
 -- hud id map (playername -> { playername = { tIDs = { hud-ids }, tb = { toggles }, ... )
 postool.tHudDB = {}
@@ -150,9 +151,10 @@ postool.rebuildHud = function(oPlayer)
 				hud_elem_type = 'statbar',
 				name = 'postoolMeseconsUsageBG',
 				position = tPosition,
-				offset = { x = 0, y = iY -23 },
+				offset = { x = -2, y = iY - 27 },
 				text = 'mesecons_use_bg.png',
 				scale = HUD_SCALE,
+				size = HUD_STATBAR_SIZE,
 				alignment = HUD_ALIGNMENT,
 				number = 3
 			})
@@ -160,17 +162,18 @@ postool.rebuildHud = function(oPlayer)
 				hud_elem_type = 'statbar',
 				name = 'postoolMeseconsUsageFG',
 				position = tPosition,
-				offset = { x = 0, y = iY -23 },
+				offset = { x = -2, y = iY - 27 },
 				text = 'mesecons_use_fg.png',
 				scale = HUD_SCALE,
+				size = { x = 1, y = HUD_STATBAR_SIZE.y },
 				alignment = HUD_ALIGNMENT,
-				number = 4
+				number = 3
 			})
 			tIDs.meseconsPenalty = oPlayer:hud_add({
 				hud_elem_type = 'text',
 				name = 'postoolMeseconsPenalty',
 				position = tPosition,
-				offset = { x = 0, y = 0 },
+				offset = { x = 0, y = -16 },
 				text = 'Initializing...',
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
@@ -359,8 +362,10 @@ postool.updateHudMesecons = function(oPlayer)
 	oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
 	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
 	-- give a minimum to show, so can see red penalty even when no usage
-	oPlayer:hud_change(tIDs.meseconsUsageFG, 'number', math.max(8, nPercent * 3))
-
+	oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
+		x = math.max(8, math.min(HUD_STATBAR_SIZE.x, .01 * nPercent * HUD_STATBAR_SIZE.x)),
+		y = HUD_STATBAR_SIZE.y
+	})
 end -- updateHudMesecons
 
 
