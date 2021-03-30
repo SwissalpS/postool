@@ -8,7 +8,7 @@ minetest.register_craftitem('postool:wand', {
 	wield_scale = { x = 1, y = 1, z = 1 },
 	liquids_pointable = true,
 	node_placement_prediction = nil,
-		
+
 	on_use = function(oItemstack, oPlayer, oPointedThing)
 		return postool.show(oPlayer, oPointedThing)
 	end,
@@ -18,7 +18,7 @@ minetest.register_craftitem('postool:wand', {
 		return postool.show(oPlayer, oPointedThing)
 	end
 --]]
-		
+
 }) -- register_craftitem
 
 
@@ -44,7 +44,7 @@ postool.show = function(oPlayer, oPointedThing)
 	local tPos = minetest.get_pointed_thing_position(oPointedThing, false)
 
 	-- fallback to player position if that did not work
-	if nil == tPos then	tPos = oPlayer:get_pos() end
+	if nil == tPos then tPos = oPlayer:get_pos() end
 
 	local _, tBlock = postool.getPositionTablesForPos(tPos)
 	local tBlockOrigin = { x = tBlock.x * 16, y = tBlock.y * 16, z = tBlock.z * 16 }

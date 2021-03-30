@@ -3,17 +3,17 @@ postool.hud.offsetx (X-position of HUD) float 0.8 0 1
 # Y-position of HUD
 postool.hud.offsety (Y-position of HUD) float 0.95 0 1
 # Separator used to separate parts of coordinates
-postool.hud.posseparator (Separate coordinate elements with this) string  | 
+postool.hud.posseparator (Separate coordinate elements with this) string  |
 # Title to show for advtrains time (don't set if you are using translation)
-postool.hud.titletrain (Title Railway Time) string Railway Time: 
+postool.hud.titletrain (Title Railway Time) string Railway Time:
 # Title to show for game time (don't set if you are using translation)
-postool.hud.titletime (Title for Time) string Time: 
+postool.hud.titletime (Title for Time) string Time:
 # Title to show for node coordinates (don't set if you are using translation)
-postool.hud.titlenode (Title for Node) string Node: 
+postool.hud.titlenode (Title for Node) string Node:
 # Title to show for block coordinates (don't set if you are using translation)
-postool.hud.titleblock (Title for Block) string Block: 
+postool.hud.titleblock (Title for Block) string Block:
 # Title to show for mesecons usage (don't set if you are using translation)
-postool.hud.titlemesecons (Title for Mesecons) string Mesecons: 
+postool.hud.titlemesecons (Title for Mesecons) string Mesecons:
 # Title to show when train time is not available (don't set if you are using translation)
 postool.hud.titletrainna (Titel for train time not available) string advtrains not enabled
 # Show postool HUD by default
