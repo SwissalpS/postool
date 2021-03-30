@@ -27,6 +27,7 @@ postool = {
 	-- wait at least this long before updating hud
 	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
 	toolGridDisplayDuration = tonumber(minetest.settings:get('postool.tool.griddisplayduration') or 12),
+	toolSuppressChunkIndicator = minetest.settings:get_bool('postool.tool.suppresschunkindicator') or false,
 }
 if nil == postool.hudShowNode then postool.hudShowNode = true end
 if nil == postool.hudShowBlock then postool.hudShowBlock = true end

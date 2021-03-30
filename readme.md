@@ -70,6 +70,7 @@ postool.hud.minupdateinterval			2
 # how long to show grid for
 # when tool is used
 postool.tool.griddisplayduration		12
+postool.tool.suppresschunkindicator	false (0/1)
 ```
 # Thanks
 This mod was strongly inspired by [poshud](https://github.com/orwell96/poshud).

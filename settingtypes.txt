@@ -34,3 +34,7 @@ postool.hud.defaultshowmeseconsdetails (Show mesecon details by default) bool fa
 postool.hud.minupdateinterval (Update HUD interval) int 2 1 999
 # wait at least this long before grid vanishes
 postool.tool.griddisplayduration (Grid display duration) int 12 1 999
+# don't show chunk border indicator. Only shows up when at a chunk border.
+# Setting this to true makes it never show at all.
+postool.tool.suppresschunkindicator (Hide chunk border indicator) bool false
+
