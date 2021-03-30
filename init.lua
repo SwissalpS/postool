@@ -3,7 +3,7 @@
 -- read the readme.md for more info on origin.
 
 -- safety check in case translation function does not exist
-if not minetest.global_exists('S') then S = function(s) return s end end
+local S = (minetest.global_exists('S') and S) or function(s) return s end
 
 --settings
 postool = {
