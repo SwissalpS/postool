@@ -143,21 +143,10 @@ postool.rebuildHud = function(oPlayer)
 	local bAdvTrains = postool.hasAdvancedTrains()
 	local bMesecons = postool.hasMeseconsDebug()
 
-	local iID = tIDs.meseconsUsageBG
+	local iID = tIDs.meseconsUsageFG
 	if tb[5] and bMesecons then
 
 		if nil == iID then
-			tIDs.meseconsUsageBG = oPlayer:hud_add({
-				hud_elem_type = 'statbar',
-				name = 'postoolMeseconsUsageBG',
-				position = tPosition,
-				offset = { x = -2, y = iY - 27 },
-				text = 'mesecons_use_bg.png',
-				scale = HUD_SCALE,
-				size = postool.HUD_STATBAR_SIZE,
-				alignment = HUD_ALIGNMENT,
-				number = 3
-			})
 			tIDs.meseconsUsageFG = oPlayer:hud_add({
 				hud_elem_type = 'statbar',
 				name = 'postoolMeseconsUsageFG',
@@ -186,7 +175,6 @@ postool.rebuildHud = function(oPlayer)
 	elseif nil ~= iID then
 
 		oPlayer:hud_remove(iID)
-		tIDs.meseconsUsageBG = nil
 		oPlayer:hud_remove(tIDs.meseconsUsageFG)
 		tIDs.meseconsUsageFG = nil
 		oPlayer:hud_remove(tIDs.meseconsPenalty)
