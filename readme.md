@@ -27,6 +27,10 @@ Example display of HUD
 
 The progress-bar shows the mesecons usage in current block. It changes colour based on penalty.
 
+When not disabled and user is not standing in the middle block of a chunk,
+then a smaller, green grid shows in which direction the chunk borders are.
+The closer to the orange grid the green one is, the closer a chunk border is in that direction.
+
 # PosTool
 Crafting recipe:
 ```

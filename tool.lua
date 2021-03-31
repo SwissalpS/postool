@@ -54,38 +54,19 @@ postool.show = function(oPlayer, oPointedThing)
 
 	if postool.toolSuppressChunkIndicator then return nil end
 
-	local bChunkBorders = {
-		west = 0 == tBlockOrigin.x % 80,
-		down = 0 == tBlockOrigin.y % 80,
-		south = 0 == tBlockOrigin.z % 80,
-		east = 0 == (tBlockOrigin.x + 16) % 80,
-		up = 0 == (tBlockOrigin.y + 16) % 80,
-		north = 0 == (tBlockOrigin.z + 16) % 80,
+	local tChunkOffset = {
+		x = math.floor((.2 * (tBlockOrigin.x % 80)) + 1),
+		y = math.floor((.2 * (tBlockOrigin.y % 80)) + 1),
+		z = math.floor((.2 * (tBlockOrigin.z % 80)) + 1),
 	}
 
-	-- if none is, no need to indicate
-	if not bChunkBorders.west and not bChunkBorders.east
-		and not bChunkBorders.up and not bChunkBorders.down
-		and not bChunkBorders.north and not bChunkBorders.south
-	then return nil end
+	-- if player is in centre block of chunk, don't show chunk indicator
+	-- This helps confirm in a fast manner.
+	if 7 == tChunkOffset.x and 7 == tChunkOffset.y and 7 == tChunkOffset.z then
+		return nil
+	end
 
-	local tChunkOrigin = vector.add(tBlockOrigin, 8)
-	local iStep = 6
-	if bChunkBorders.west then
-		tChunkOrigin.x = tChunkOrigin.x - iStep - 2
-	elseif bChunkBorders.east then
-		tChunkOrigin.x = tChunkOrigin.x + iStep
-	end
-	if bChunkBorders.down then
-		tChunkOrigin.y = tChunkOrigin.y - iStep - 2
-	elseif bChunkBorders.up then
-		tChunkOrigin.y = tChunkOrigin.y + iStep
-	end
-	if bChunkBorders.south then
-		tChunkOrigin.z = tChunkOrigin.z - iStep - 2
-	elseif bChunkBorders.north then
-		tChunkOrigin.z = tChunkOrigin.z + iStep
-	end
+	local tChunkOrigin = vector.add(tBlockOrigin, tChunkOffset)
 	minetest.add_entity(tChunkOrigin, 'postool:display_chunk')
 
 	return nil
