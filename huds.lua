@@ -26,7 +26,8 @@ postool.readPlayerToggles = function(oPlayer)
 			true == postool.hudShowNode,
 			true == postool.hudShowBlock,
 			true == postool.hudShowMesecons,
-			true == postool.hudShowMeseconsDetails
+			true == postool.hudShowMeseconsDetails,
+			false
 		}, true == postool.hudShowMain, postool.hudPosX
 	end -- if has none yet
 
@@ -34,6 +35,9 @@ postool.readPlayerToggles = function(oPlayer)
 	for i = 2, #sFlags do
 		tb[i -1] = '1' == sFlags:sub(i, i)
 	end
+	
+	-- add chunk border toggle for tool usage, if not yet existing
+	if 6 == #sFlags then sFlags[7] = false end
 
 	return tb, '1' == sFlags:sub(1, 1), tMetaRef:get_float('postoolHUDx')
 
