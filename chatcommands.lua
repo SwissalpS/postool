@@ -1,3 +1,6 @@
+-- safety check in case translation function does not exist
+local S = (minetest.global_exists('S') and S) or function(s) return s end
+
 postool.chatcommand = {
 
 	params = '',
