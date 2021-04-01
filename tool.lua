@@ -54,6 +54,10 @@ postool.show = function(oPlayer, oPointedThing)
 
 	if postool.toolSuppressChunkIndicator then return nil end
 
+	-- only show chunk information if zoom-key is pressed
+	local tKeys = oPlayer:get_player_control()
+	if true ~= tKeys.zoom then return nil end
+
 	local tChunkOffset = {
 		x = math.floor((.2 * (tBlockOrigin.x % 80)) + 1),
 		y = math.floor((.2 * (tBlockOrigin.y % 80)) + 1),
