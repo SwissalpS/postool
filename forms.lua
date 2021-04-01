@@ -1,3 +1,6 @@
+-- safety check in case translation function does not exist
+local S = (minetest.global_exists('S') and S) or function(s) return s end
+
 local sPosToolFormNameConfig = 'postoolConfig'
 
 postool.showConfigFormspec = function(oPlayer)
@@ -86,3 +89,4 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 	postool.rebuildHud(oPlayer)
 
 end -- register_on_player_receive_fields
+
