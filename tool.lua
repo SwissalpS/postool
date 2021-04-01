@@ -52,7 +52,25 @@ postool.show = function(oPlayer, oPointedThing)
 	-- and show it
 	minetest.add_entity(tBlockOrigin, 'postool:display')
 
+	-- CHUNK INDICATOR --
+	-- respect server wide suppression
 	if postool.toolSuppressChunkIndicator then return nil end
+
+	-- read players tool settings
+	local tMetaRef = oPlayer:get_meta()
+	local sFlags = tMetaRef:get_string('postoolToolFlags')
+	local bWantsChunk = '1' == sFlags:sub(1, 1)
+
+	-- does player want to toggle his chunk indicator setting
+	local tKeys = oPlayer:get_player_control()
+	if true == tKeys.zoom and true == tKeys.aux1 and true == tKeys.sneak then
+		bWantsChunk = not bWantsChunk
+		sFlags = (bWantsChunk and '1' or '0') .. sFlags:sub(2, -1)
+		tMetaRef:set_string('postoolToolFlags', sFlags)
+	end
+
+	-- only show chunk indicator if player has 'unlocked' it
+	if not bWantsChunk then return nil end
 
 	local tChunkOffset = {
 		x = math.floor((.2 * (tBlockOrigin.x % 80)) + 1),
