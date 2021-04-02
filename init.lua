@@ -26,6 +26,8 @@ postool = {
 	hudShowMeseconsDetails = minetest.settings:get_bool('postool.hud.defaultshowmeseconsdetails') or false,
 	-- wait at least this long before updating hud
 	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
+	-- chunk size used by this server in mapblocks (not sure this is correct way of getting actually used size)
+	serverChunkSize = math.max(1, tonumber(minetest.settings:get('chunksize') or 5)),
 	toolGridDisplayDuration = tonumber(minetest.settings:get('postool.tool.griddisplayduration') or 12),
 	toolSuppressChunkIndicator = minetest.settings:get_bool('postool.tool.suppresschunkindicator') or false,
 }

@@ -34,6 +34,12 @@ minetest.register_craft({
 
 }) -- register_craft
 
+-- 'constants' for this session
+local tChunkConstants = {
+	iChunkLength = 16 * postool.serverChunkSize,
+	iChunkDiff = 16 * (math.ceil(.5 * postool.serverChunkSize)),
+	dMultiplier = 1 / postool.serverChunkSize,
+}
 
 postool.show = function(oPlayer, oPointedThing)
 
@@ -71,17 +77,26 @@ postool.show = function(oPlayer, oPointedThing)
 	-- only show chunk indicator if player has 'unlocked' it
 	if not bWantsChunk then return nil end
 
+	-- do some math magic to figure out where in the current block
+	-- to place the chunk indicator. First make some alias to avoid long lines.
+	local tBO = tBlockOrigin
+	local dM = tChunkConstants.dMultiplier
+	local iCD = tChunkConstants.iChunkDiff
+	local iCL = tChunkConstants.iChunkLength
 	local tChunkOffset = {
-		x = math.floor((.2 * (tBlockOrigin.x % 80)) + 1),
-		y = math.floor((.2 * (tBlockOrigin.y % 80)) + 1),
-		z = math.floor((.2 * (tBlockOrigin.z % 80)) + 1),
+		x = math.floor((dM * ((tBO.x - iCD) % iCL)) + 1),
+		y = math.floor((dM * ((tBO.y - iCD) % iCL)) + 1),
+		z = math.floor((dM * ((tBO.z - iCD) % iCL)) + 1),
 	}
 
 	-- if player is in centre block of chunk, don't show chunk indicator
-	-- This helps confirm in a fast manner.
-	if 7 == tChunkOffset.x and 7 == tChunkOffset.y and 7 == tChunkOffset.z then
-		return nil
-	end
+	-- This helps confirm in a fast manner. Your milleage may vary depending on
+	-- your mapgen settings. Tested with chunksizes 3, 4 and 5
+	-- This works fine with 3 and 5 but 4 will not have a centre block.
+	local bX = 6 <= tChunkOffset.x and 8 >= tChunkOffset.x
+	local bY = 6 <= tChunkOffset.y and 8 >= tChunkOffset.y
+	local bZ = 6 <= tChunkOffset.z and 8 >= tChunkOffset.z
+	if bX and bY and bZ then return nil end
 
 	local tChunkOrigin = vector.add(tBlockOrigin, tChunkOffset)
 	minetest.add_entity(tChunkOrigin, 'postool:display_chunk')
