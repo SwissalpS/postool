@@ -48,7 +48,7 @@ Settings with default values:
 # HUD offsets in screen percentage
 postool.hud.offsetx						0.8
 postool.hud.offsety						0.95
-# HUD z_index
+# HUD z_index (does not seem to work)
 postool.hud.offsetz						-111
 # how to separate x, y and z values
 postool.hud.posseparator				' | '
