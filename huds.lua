@@ -13,7 +13,7 @@ postool.sTime = ''
 
 -- returns tb (flags), bMain, nX (X-offset)
 -- from player meta
-postool.readPlayerToggles = function(oPlayer)
+function postool.readPlayerToggles(oPlayer)
 
 	local tMetaRef = oPlayer:get_meta()
 	local sFlags = tMetaRef:get_string('postoolHUDflags')
@@ -27,7 +27,7 @@ postool.readPlayerToggles = function(oPlayer)
 			true == postool.hudShowBlock,
 			true == postool.hudShowMesecons,
 			true == postool.hudShowMeseconsDetails,
-			false
+			false -- show chunk indicator
 		}, true == postool.hudShowMain, postool.hudPosX
 	end -- if has none yet
 
@@ -45,7 +45,7 @@ end -- readPlayerToggles
 
 
 local function boolToString(b) if b then return '1' else return '0' end end
-postool.savePlayerToggles = function(oPlayer)
+function postool.savePlayerToggles(oPlayer)
 
 	local _, tb, bMain, nX = postool.getPlayerTables(oPlayer)
 
@@ -62,7 +62,7 @@ end -- savePlayerToggles
 
 
 -- return to default values
-postool.resetHud = function(oPlayer)
+function postool.resetHud(oPlayer)
 
 	local sName = postool.removeHud(oPlayer)
 
