@@ -92,9 +92,11 @@ function postool.statsString(oPlayer)
 	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0
 	for sName, tDB in pairs(postool.tHudDB) do
 		iCountP = iCountP + 1
-		if tDB.bMain then lCount[0] = lCount[0] + 1 end
-		for i, b in ipairs(tDB.tb) do
-			if b then lCount[i] = lCount[i] + 1 end
+		if tDB.bMain then
+			lCount[0] = lCount[0] + 1
+			for i, b in ipairs(tDB.tb) do
+				if b then lCount[i] = lCount[i] + 1 end
+			end
 		end
 	end
 
