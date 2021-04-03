@@ -100,7 +100,8 @@ function postool.statsString(oPlayer)
 		end
 	end
 
-	local sOut = 'Since last reboot, postool has been used '
+	local sOut = '[postool] ' .. tostring(postool.version)
+			.. '\nSince last reboot, postool has been used '
 			.. tostring(postool.iCountToolUses) .. ' times.\n'
 			.. tostring(lCount[0]) .. ' of the ' .. tostring(iCountP)
 			.. ' currently online players have postool HUD on.\n'
