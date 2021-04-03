@@ -161,6 +161,7 @@ postool.rebuildHud = function(oPlayer)
 				size = { x = 1, y = HUD_STATBAR_SIZE.y },
 				alignment = HUD_ALIGNMENT,
 				number = 4,
+				z_index = postool.hudPosZ,
 			})
 			tIDs.meseconsPenalty = oPlayer:hud_add({
 				hud_elem_type = 'text',
@@ -171,6 +172,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
 				number = postool.hudColour,
+				z_index = postool.hudPosZ,
 			})
 		end -- if not yet generated
 
@@ -198,6 +200,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
 				number = postool.hudColour,
+				z_index = postool.hudPosZ,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
@@ -225,6 +228,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
 				number = postool.hudColour,
+				z_index = postool.hudPosZ,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
@@ -252,6 +256,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
 				number = postool.hudColour,
+				z_index = postool.hudPosZ,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
@@ -279,6 +284,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
 				number = postool.hudColour,
+				z_index = postool.hudPosZ,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)

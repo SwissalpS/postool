@@ -10,6 +10,7 @@ postool = {
 	-- Position of hud
 	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),
 	hudPosY = tonumber(minetest.settings:get('postool.hud.offsety') or 0.95),
+	hudPosZ = tonumber(minetest.settings:get('postool.hud.offsetz') or -111),
 	hudPosSeparator = minetest.settings:get('postool.hud.posseparator') or ' | ',
 	hudTitleTrain = minetest.settings:get('postool.hud.titletrain') or S('Railway Time') .. ': ',
 	hudTitleTime = minetest.settings:get('postool.hud.titletime') or S('Time') .. ': ',
