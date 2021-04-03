@@ -7,6 +7,7 @@ local S = (minetest.global_exists('S') and S) or function(s) return s end
 
 --settings
 postool = {
+	S = S,
 	-- Position of hud
 	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),
 	hudPosY = tonumber(minetest.settings:get('postool.hud.offsety') or 0.95),
