@@ -65,16 +65,15 @@ postool.show = function(oPlayer, oPointedThing)
 	-- respect server wide suppression
 	if postool.toolSuppressChunkIndicator then return nil end
 
-	-- read players tool settings
-	local tDB = postool.getPlayerTables(oPlayer, true)
-	local bWantsChunk = tDB.tb[7]
+	local bWantsChunk
 
 	-- does player want to toggle his chunk indicator setting
 	local tKeys = oPlayer:get_player_control()
 	if true == tKeys.zoom and true == tKeys.aux1 and true == tKeys.sneak then
-		bWantsChunk = not bWantsChunk
-		tDB.tb[7] = bWantsChunk
-		postool.savePlayerToggles(oPlayer)
+		bWantsChunk = postool.toggleChunkMarker(oPlayer)
+	else
+		-- read players tool settings
+		bWantsChunk = postool.playerWantsChunkIndicator(oPlayer)
 	end
 
 	-- only show chunk indicator if player has 'unlocked' it

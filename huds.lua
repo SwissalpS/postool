@@ -61,6 +61,16 @@ function postool.savePlayerToggles(oPlayer)
 end -- savePlayerToggles
 
 
+function postool.playerWantsChunkIndicator(oPlayer)
+
+	local tDB = postool.getPlayerTables(oPlayer, true)
+	local bWantsChunk = tDB.tb[7]
+
+	return bWantsChunk
+
+end -- playerWantsChunkIndicator
+
+
 -- return to default values
 function postool.resetHud(oPlayer)
 
@@ -71,6 +81,57 @@ function postool.resetHud(oPlayer)
 	postool.initHud(oPlayer)
 
 end -- resetHud
+
+
+-- send some stats
+function postool.statsString(oPlayer)
+
+	local lCount = {}
+	local iCountP = 0
+	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0 lCount[4] = 0
+	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0
+	for sName, tDB in pairs(postool.tHudDB) do
+		iCountP = iCountP + 1
+		if tDB.bMain then lCount[0] = lCount[0] + 1 end
+		for i, b in ipairs(tDB.tb) do
+			if b then lCount[i] = lCount[i] + 1 end
+		end
+	end
+
+	local sOut = 'Since last reboot, postool has been used '
+			.. tostring(postool.iCountToolUses) .. ' times.\n'
+			.. tostring(lCount[0]) .. ' of the ' .. tostring(iCountP)
+			.. ' currently online players have postool HUD on.\n'
+
+	local S = postool.S
+	local lTitles = {
+		S('Train Time'),
+		S('Time'),
+		S('Nodes'),
+		S('Blocks'),
+		S('Mesecons'),
+		S('Details'),
+		S('Chunks'),
+	}
+	for i = 1, 7 do
+		sOut = sOut .. lCount[i] .. ' ' .. lTitles[i] .. ' '
+	end
+
+	return sOut
+
+end -- statsString
+
+
+-- toggle chunk marker state
+function postool.toggleChunkMarker(oPlayer)
+
+	local tDB = postool.getPlayerTables(oPlayer, true)
+	tDB.tb[7] = not tDB.tb[7]
+	postool.savePlayerToggles(oPlayer)
+
+	return tDB.tb[7]
+
+end -- toggleChunkMarker
 
 
 -- return the runtime cache for player

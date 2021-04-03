@@ -13,8 +13,14 @@ postool.chatcommand = {
 
 		if 'resethud' == string.lower(sParam) then
 			postool.resetHud(oPlayer)
+			return true, S('Postool settings reset to factory settings.')
+		elseif 'stats' == string.lower(sParam) then
+			return true, postool.statsString(oPlayer)
+		elseif 'togglechunkmarker' == string.lower(sParam) then
+			local bState = postool.toggleChunkMarker(oPlayer)
+			return true, S('Chunk Marker ') .. (bState and 'ON' or 'OFF')
 		else
-			postool.showConfigFormspec(oPlayer)
+			return postool.showConfigFormspec(oPlayer)
 		end
 
 	end
