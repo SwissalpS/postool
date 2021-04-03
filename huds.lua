@@ -35,7 +35,7 @@ postool.readPlayerToggles = function(oPlayer)
 	for i = 2, #sFlags do
 		tb[i -1] = '1' == sFlags:sub(i, i)
 	end
-	
+
 	-- add chunk border toggle for tool usage, if not yet existing
 	if 6 == #sFlags then sFlags[7] = false end
 
@@ -160,7 +160,7 @@ postool.rebuildHud = function(oPlayer)
 				scale = HUD_SCALE,
 				size = { x = 1, y = HUD_STATBAR_SIZE.y },
 				alignment = HUD_ALIGNMENT,
-				number = 4
+				number = 4,
 			})
 			tIDs.meseconsPenalty = oPlayer:hud_add({
 				hud_elem_type = 'text',
@@ -170,7 +170,7 @@ postool.rebuildHud = function(oPlayer)
 				text = 'Initializing...',
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
-				number = postool.hudColour
+				number = postool.hudColour,
 			})
 		end -- if not yet generated
 
@@ -197,7 +197,7 @@ postool.rebuildHud = function(oPlayer)
 				text = 'Initializing...',
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
-				number = postool.hudColour
+				number = postool.hudColour,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
@@ -224,7 +224,7 @@ postool.rebuildHud = function(oPlayer)
 				text = 'Initializing...',
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
-				number = postool.hudColour
+				number = postool.hudColour,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
@@ -251,7 +251,7 @@ postool.rebuildHud = function(oPlayer)
 				text = 'Initializing...',
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
-				number = postool.hudColour
+				number = postool.hudColour,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
@@ -278,7 +278,7 @@ postool.rebuildHud = function(oPlayer)
 				text = 'Initializing...',
 				scale = HUD_SCALE,
 				alignment = HUD_ALIGNMENT,
-				number = postool.hudColour
+				number = postool.hudColour,
 			})
 		else
 			setHudYoffset(oPlayer, iID, iY)
