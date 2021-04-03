@@ -105,6 +105,9 @@ function postool.statsString(oPlayer)
 			.. tostring(lCount[0]) .. ' of the ' .. tostring(iCountP)
 			.. ' currently online players have postool HUD on.\n'
 
+	-- nobody has it activated so no need to gather more information
+	if 0 == lCount[0] then return sOut end
+
 	local S = postool.S
 	local lTitles = {
 		S('Train Time'),
