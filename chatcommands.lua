@@ -2,8 +2,12 @@ local S = postool.S
 
 postool.chatcommand = {
 
-	params = '',
-	description = 'Configure HUD',
+	params = '[ resetHUD | stats | toggleChunk ]',
+	description = 'Configure postool HUD\n'
+			.. 'Commands are case insensitive. '
+			.. 'resetHUD: resets to factory settings. '
+			.. 'stats: ouptuts some information. '
+			.. 'toggleChunk: toggles chunk indicator for player.',
 	func = function(sName, sParam)
 
 		local oPlayer = minetest.get_player_by_name(sName)
@@ -18,7 +22,7 @@ postool.chatcommand = {
 			return true, postool.statsString(oPlayer)
 		elseif 'togglechunkmarker' == string.lower(sParam) then
 			local bState = postool.toggleChunkMarker(oPlayer)
-			return true, S('Chunk Marker ') .. (bState and 'ON' or 'OFF')
+			return true, S('Chunk Marker ') .. (bState and S('ON') or S('OFF'))
 		else
 			return postool.showConfigFormspec(oPlayer)
 		end
