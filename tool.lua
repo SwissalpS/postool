@@ -46,6 +46,9 @@ postool.show = function(oPlayer, oPointedThing)
 	-- sanity check
 	if nil == oPointedThing or nil == oPlayer then return nil end
 
+	-- increment use count for stats
+	postool.iCountToolUses = postool.iCountToolUses + 1
+
 	-- attempt to get position from pointed thing
 	local tPos = minetest.get_pointed_thing_position(oPointedThing, false)
 
