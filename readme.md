@@ -86,7 +86,8 @@ and [protector](https://notabug.org/TenPlus1/protector) as I used parts of them 
 [@6r1d for screenshots and support](https://github.com/6r1d)
 
 Thanks also to the users of pandorabox.io for feedback and inspiration to actually
-write this mod.
+write this mod. @Huhhila for pushing the mapchunk indicator idea. On #minetest IRC/discord
+@Warr1024, @hlqkj and @Krock for chiming in the discussion.
 
 (If you feel I should include you by name, just submit a PR)
 
