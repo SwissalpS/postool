@@ -44,7 +44,7 @@ local tChunkConstants = {
 postool.show = function(oPlayer, oPointedThing)
 
 	-- sanity check
-	if nil == oPointedThing or nil == oPlayer then return nil end
+	if nil == oPointedThing or nil == oPlayer or oPlayer.is_fake_player then return nil end
 
 	-- increment use count for stats
 	postool.iCountToolUses = postool.iCountToolUses + 1
@@ -225,4 +225,3 @@ minetest.register_node('postool:display_chunk_node', {
 	drop = ''
 
 }) -- register_node chunk indicator
-
