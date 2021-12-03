@@ -7,7 +7,7 @@ local S = (minetest.global_exists('S') and S) or function(s) return s end
 
 --settings
 postool = {
-	version = 20210403.1612,
+	version = 20211203.1927,
 	S = S,
 	-- Position of hud
 	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),

@@ -89,5 +89,7 @@ Thanks also to the users of pandorabox.io for feedback and inspiration to actual
 write this mod. @Huhhila for pushing the mapchunk indicator idea. On #minetest IRC/discord
 @Warr1024, @hlqkj and @Krock for chiming in the discussion.
 
+Thanks to @BuckarooBanzay for helping debugging postool in node-breakers.
+
 (If you feel I should include you by name, just submit a PR)
 
