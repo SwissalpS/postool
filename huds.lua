@@ -15,6 +15,11 @@ postool.sTime = ''
 -- from player meta
 function postool.readPlayerToggles(oPlayer)
 
+	-- is_fake_player and corresponding player is offline?
+	if not oPlayer.get_meta then
+		return { false, false, false, false, false, false, false }, false, 0
+	end
+
 	local tMetaRef = oPlayer:get_meta()
 	local sFlags = tMetaRef:get_string('postoolHUDflags')
 
@@ -149,7 +154,7 @@ postool.getPlayerTables = function(oPlayer, bRef)
 	local tDB = postool.tHudDB[sName]
 
 	if not tDB then
-		print('[postool]getPlayerTables: this should never happen')
+		-- happens when player is not online but has postool in a machine
 		postool.initHud(oPlayer);
 		tDB = postool.tHudDB[sName]
 	end
