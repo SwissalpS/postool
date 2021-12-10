@@ -157,6 +157,7 @@ postool.getPlayerTables = function(oPlayer, bRef)
 		-- happens when player is not online but has postool in a machine
 		postool.initHud(oPlayer)
 		tDB = postool.tHudDB[sName]
+		tDB.bIsFake = true
 	end
 
 	if bRef then return tDB end
@@ -381,7 +382,10 @@ postool.initHud = function(oPlayer)
 	local sName = oPlayer:get_player_name()
 
 	-- already set up?
-	if postool.tHudDB[sName] then return end
+	if postool.tHudDB[sName] then
+		if not postool.tHudDB[sName].bIsFake then return end
+		postool.tHudDB[sName] = nil
+	end
 
 	local tb, bMain, nX = postool.readPlayerToggles(oPlayer)
 
