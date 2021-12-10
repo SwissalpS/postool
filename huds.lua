@@ -155,7 +155,7 @@ postool.getPlayerTables = function(oPlayer, bRef)
 
 	if not tDB then
 		-- happens when player is not online but has postool in a machine
-		postool.initHud(oPlayer);
+		postool.initHud(oPlayer)
 		tDB = postool.tHudDB[sName]
 	end
 
