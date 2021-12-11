@@ -1,3 +1,4 @@
+[![ContentDB](https://content.minetest.net/packages/SwissalpS/postool/shields/downloads/)](https://content.minetest.net/packages/SwissalpS/postool/)
 
 PosTool mod for Minetest
 ========================
