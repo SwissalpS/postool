@@ -1,5 +1,5 @@
--- register item
-minetest.register_craftitem('postool:wand', {
+-- register as a tool
+minetest.register_tool('postool:wand', {
 
 	description = 'PosTool',
 	inventory_image = 'postool_wand.png',
