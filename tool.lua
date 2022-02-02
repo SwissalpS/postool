@@ -34,6 +34,13 @@ minetest.register_craft({
 
 }) -- register_craft
 
+
+-- register with unified_inventory, if exists
+if minetest.global_exists('unified_inventory') then
+	unified_inventory.add_category_item('tools', 'postool:wand')
+end
+
+
 -- 'constants' for this session
 local tChunkConstants = {
 	iChunkLength = 16 * postool.serverChunkSize,
