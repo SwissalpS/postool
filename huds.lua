@@ -413,27 +413,57 @@ postool.updateHudMesecons = function(oPlayer)
 	local tPos = oPlayer:get_pos()
 	local tCtx = mesecons_debug.get_context(tPos)
 
-	local nPercent = math.floor(tCtx.avg_micros / mesecons_debug.max_usage_micros * 100)
+	local bDetails = tb[6]
+	-- backward compat
+	local sDetails = ''
+	local nPercent, sPenalty, sTexture
+	if mesecons_debug.max_usage_micros then
 
-	local sPenalty = 'Penalty: ' .. tostring(math.floor(tCtx.penalty * 10) / 10) .. ' s'
+		local nMaxUsageMicros = mesecons_debug.max_usage_micros
+		if 0 == nMaxUsageMicros then nMaxUsageMicros = 1 end
+		nPercent = math.floor(tCtx.avg_micros / nMaxUsageMicros * 100)
 
-	if tb[6] then
+		sPenalty = 'Penalty: ' .. tostring(math.floor(tCtx.penalty * 10) / 10) .. ' s'
+		if bDetails then
 
-		local sDetails = '\nUsage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
+			sDetails = '\nUsage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
 						.. tostring(nPercent) .. '%) \n'
 
-		sPenalty = sDetails .. sPenalty
+		end
 
-	end -- if show more details
+		if 0.1 >= tCtx.penalty then
+			sTexture = 'mesecons_use_fg.png' --0x00FF00
+		elseif 0.5 > tCtx.penalty then
+			sTexture = 'mesecons_use_fg_mid.png' --0xFFFF00
+		else
+			sTexture = 'mesecons_use_fg_high.png' --0xFF0000
+		end
 
-	local sTexture
-	if 0.1 >= tCtx.penalty then
-		sTexture = 'mesecons_use_fg.png' --0x00FF00
-	elseif 0.5 > tCtx.penalty then
-		sTexture = 'mesecons_use_fg_mid.png' --0xFFFF00
-	else
-		sTexture = 'mesecons_use_fg_high.png' --0xFF0000
+	elseif mesecons_debug.avg_total_micros_per_second then
+		-- version from 2651262fa3134415f349f63840c89486fabd9063
+		local nAvgTotal = mesecons_debug.avg_total_micros_per_second
+		if 0 == nAvgTotal then nAvgTotal = 1 end
+		nPercent = tCtx.avg_micros_per_second * 100 / nAvgTotal
+
+		sPenalty = string.format('Penalty: %.2f s', tCtx.penalty)
+		if bDetails then
+
+			sDetails = string.format('\nUsage: %.0f us/s (%.1f%%) \n',
+				tCtx.avg_micros_per_second, nPercent)
+
+		end
+
+		if 1 >= tCtx.penalty then
+			sTexture = 'mesecons_use_fg.png' --0x00FF00
+		elseif 10 >= tCtx.penalty then
+			sTexture = 'mesecons_use_fg_mid.png' --0xFFFF00
+		else
+			sTexture = 'mesecons_use_fg_high.png' --0xFF0000
+		end
+
 	end
+
+	sPenalty = sDetails .. sPenalty
 
 	oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
 	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)

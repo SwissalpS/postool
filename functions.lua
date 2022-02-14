@@ -59,8 +59,9 @@ end -- hasAdvancedTrains
 
 
 postool.hasMeseconsDebug = function()
-	return (nil ~= postool.has_mesecons_debug_mod) and mesecons_debug
-		and (nil ~= mesecons_debug.max_usage_micros)
+	return postool.has_mesecons_debug_mod
+		and minetest.global_exists('mesecons_debug')
+		and (mesecons_debug.max_usage_micros or mesecons_debug.avg_total_micros_per_second)
 		and mesecons_debug.get_context
 end -- hasMeseconsDebug
 
