@@ -1,4 +1,7 @@
 [![ContentDB](https://content.minetest.net/packages/SwissalpS/postool/shields/downloads/)](https://content.minetest.net/packages/SwissalpS/postool/)
+[![luacheck](https://github.com/SwissalpS/postool/workflows/luacheck/badge.svg)](https://github.com/SwissalpS/postool/actions)
+[![License](https://img.shields.io/badge/License-LGPLv3%20and%20CC--BY--SA--3.0-green.svg)](LICENSE)
+[![Minetest](https://img.shields.io/badge/Minetest-5.0+-blue.svg)](https://www.minetest.net)
 
 PosTool mod for Minetest
 ========================
