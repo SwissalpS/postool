@@ -54,7 +54,7 @@ end -- getTime
 
 
 postool.hasAdvancedTrains = function()
-	return postool.has_advtrains_mod and advtrains.lines and advtrains.lines.rwt
+	return postool.has_advtrains_mod and advtrains.lines and advtrains.lines.rwt and true
 end -- hasAdvancedTrains
 
 

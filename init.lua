@@ -2,8 +2,8 @@
 -- Also Tool to graphicaly show current map-block.
 -- read the readme.md for more info on origin.
 
--- safety check in case translation function does not exist
-local S = (minetest.global_exists('S') and S) or function(s) return s end
+-- keep us aware that translations are a thing to strive towards
+local function S(s) return s end
 
 --settings
 postool = {
@@ -41,8 +41,8 @@ if nil == postool.hudShowBlock then postool.hudShowBlock = true end
 postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
 
 -- deps
-postool.has_advtrains_mod = minetest.get_modpath('advtrains')
-postool.has_mesecons_debug_mod = minetest.get_modpath('mesecons_debug')
+postool.has_advtrains_mod = minetest.get_modpath('advtrains') and true
+postool.has_mesecons_debug_mod = minetest.get_modpath('mesecons_debug') and true
 
 -- base path
 local sMP = minetest.get_modpath('postool')

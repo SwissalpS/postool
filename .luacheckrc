@@ -1,9 +1,6 @@
 
 globals = {
-	"minetest",
 	"postool",
-	"advtrains",
-	"mesecons_debug"
 }
 
 read_globals = {
@@ -12,9 +9,10 @@ read_globals = {
 	table = {fields = {"copy", "getn"}},
 
 	-- Minetest
+	"minetest",
 	"vector", "ItemStack",
 	"dump",
 
 	-- deps
-	"default", "advtrains", "mesecons_debug"
+	"default", "advtrains", "mesecons_debug", "unified_inventory"
 }

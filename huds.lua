@@ -79,7 +79,7 @@ end -- playerWantsChunkIndicator
 -- return to default values
 function postool.resetHud(oPlayer)
 
-	local sName = postool.removeHud(oPlayer)
+	postool.removeHud(oPlayer)
 
 	oPlayer:get_meta():set_string('postoolHUDflags', '')
 
@@ -89,13 +89,15 @@ end -- resetHud
 
 
 -- send some stats
+-- luacheck: no unused args
 function postool.statsString(oPlayer)
+-- luacheck: unused args
 
 	local lCount = {}
 	local iCountP = 0
 	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0 lCount[4] = 0
 	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0
-	for sName, tDB in pairs(postool.tHudDB) do
+	for _, tDB in pairs(postool.tHudDB) do
 		iCountP = iCountP + 1
 		if tDB.bMain then
 			lCount[0] = lCount[0] + 1
@@ -363,7 +365,7 @@ postool.rebuildHud = function(oPlayer)
 			setHudYoffset(oPlayer, iID, iY)
 		end
 
-		iY = iY + iDiff
+		--iY = iY + iDiff
 
 	elseif nil ~= iID then
 
@@ -446,7 +448,9 @@ end -- updateHudMesecons
 -- show new text
 postool.updateHud = function(oPlayer)
 
+	-- luacheck: no unused
 	local tIDs, tb, bMain = postool.getPlayerTables(oPlayer)
+	-- luacheck: unused
 
 	if tb[1] and tIDs.trainTime then
 

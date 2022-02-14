@@ -9,6 +9,7 @@ minetest.register_craftitem('postool:wand', {
 	liquids_pointable = true,
 	node_placement_prediction = nil,
 
+	-- luacheck: no unused args
 	on_use = function(oItemstack, oPlayer, oPointedThing)
 		return postool.show(oPlayer, oPointedThing)
 	end,
@@ -18,6 +19,7 @@ minetest.register_craftitem('postool:wand', {
 		return postool.show(oPlayer, oPointedThing)
 	end
 --]]
+	-- luacheck: unused args
 
 }) -- register_craftitem
 
