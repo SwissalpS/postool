@@ -7,7 +7,7 @@ postool.showConfigFormspec = function(oPlayer)
 	local tb, bMain, _ = postool.readPlayerToggles(oPlayer)
 	local sName = oPlayer:get_player_name()
 
-	local sFormspec = 'size[3.1,3.25;]'
+	local sFormspec = 'size[3.1,3.75;]'
 		.. 'label[-0.2,-0.2;' .. S('PosTool HUD Configuration') .. ']'
 		.. 'checkbox[1,0.25;bMain;' .. S('Main') .. ';' .. tostring(bMain) .. ']'
 	if postool.hasAdvancedTrains() then sFormspec = sFormspec
@@ -20,7 +20,8 @@ postool.showConfigFormspec = function(oPlayer)
 		.. 'checkbox[0,1.75;bMesecons;' .. postool.hudTitleMesecons .. ';' .. tostring(tb[5]) .. ']'
 		.. 'checkbox[2,1.75;bMeseconsDetails;' .. S('Details') .. ';' .. tostring(tb[6]) .. ']'
 	end sFormspec = sFormspec
-		.. 'button[0,2.5;3,1;butToggle;' .. S('Toggle Position') .. ']'
+		.. 'checkbox[0,2.25;bBiome;' .. postool.hudTitleBiome .. ';' .. tostring(tb[8]) .. ']'
+		.. 'button[0,3;3,1;butToggle;' .. S('Toggle Position') .. ']'
 
 	minetest.show_formspec(sName, sPosToolFormNameConfig, sFormspec)
 
@@ -66,6 +67,10 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 
 	if nil ~= tFields.bMesecons then
 		tDB.tb[5] = 'true' == tFields.bMesecons
+	end
+
+	if nil ~= tFields.bBiome then
+		tDB.tb[8] = 'true' == tFields.bBiome
 	end
 
 	if nil ~= tFields.bMeseconsDetails then

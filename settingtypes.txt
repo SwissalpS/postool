@@ -16,6 +16,8 @@ postool.hud.titleblock (Title for Block) string Block:
 postool.hud.titlemesecons (Title for Mesecons) string Mesecons:
 # Title to show when train time is not available (don't set if you are using translation)
 postool.hud.titletrainna (Titel for train time not available) string advtrains not enabled
+# Title to show for biome data (don't set if you are using translation)
+postool.hud.titlebiome (Title for Biome) string Biome:
 # Show postool HUD by default
 postool.hud.defaultshowmain (Show postool HUD by default) bool false
 # Show railway time by default
@@ -30,6 +32,8 @@ postool.hud.defaultshowblock (Show block coordinates by default) bool true
 postool.hud.defaultshowmesecons (Show mesecon info by default) bool false
 # Show mesecon details by default (requires mesecons_debug
 postool.hud.defaultshowmeseconsdetails (Show mesecon details by default) bool false
+# Show biome data by default
+postool.hud.defaultshowbiome (Show biome data by default) bool false
 # wait at least this long before updating HUD (seconds)
 postool.hud.minupdateinterval (Update HUD interval) int 2 1 999
 # wait at least this long before grid vanishes

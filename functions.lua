@@ -67,6 +67,7 @@ end -- hasMeseconsDebug
 
 
 -- return a string to show on HUD containing info about biome that player is standing on
+-- thanks to Montandalar for initial method
 postool.getBiomeDataForPlayer = function(oPlayer)
 
 	local tPos = oPlayer:get_pos()
@@ -74,16 +75,23 @@ postool.getBiomeDataForPlayer = function(oPlayer)
 	-- due to y range limits.
 	tPos.y = tPos.y - 1
 
-	-- TODO: test what happens here if position is out of world
-	-- also test if position needs to be rounded
-	-- also consider other name as very easily confused with tDB
-	local tBD = minetest.get_biome_data(tPos)
---print(dump(tBD))
+	-- attempt to fetch biome data
+	local tBiome = minetest.get_biome_data(tPos)
+	if not tBiome then
+		return postool.hudTitleBiome .. 'N/A'
+	end
 
-	return string.format('Biome=%s (%d) Heat=%.2f Humidity=%.2f',
-		minetest.get_biome_name(tBD.biome),
-		tBD.biome, tBD.heat, tBD.humidity)
-	
+	return string.format('%s%s (%d)',
+		postool.hudTitleBiome,
+		minetest.get_biome_name(tBiome.biome),
+		tBiome.biome)
+
+	-- more verbose variant:
+	-- return string.format('%s%s (%d) Heat: %.2f Humidity: %.2f',
+	-- 	postool.hudTitleBiome,
+	-- 	minetest.get_biome_name(tBiome.biome),
+	-- 	tBiome.biome, tBiome.heat, tBiome.humidity)
+
 end -- getBiomeDataForPlayer
 
 

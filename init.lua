@@ -20,6 +20,7 @@ postool = {
 	hudTitleBlock = minetest.settings:get('postool.hud.titleblock') or S('Block') .. ': ',
 	hudTitleMesecons = minetest.settings:get('postool.hud.titlemesecons') or S('Mesecons') .. ': ',
 	hudTitleTrainNA = minetest.settings:get('postool.hud.titletrainna') or S('advtrains not enabled'),
+	hudTitleBiome = minetest.settings:get('postool.hud.titlebiome') or S('Biome') .. ': ',
 	hudShowMain = minetest.settings:get_bool('postool.hud.defaultshowmain') or false,
 	hudShowTrain = minetest.settings:get_bool('postool.hud.defaultshowtrain') or false,
 	hudShowTime = minetest.settings:get_bool('postool.hud.defaultshowtime') or false,
@@ -27,6 +28,7 @@ postool = {
 	hudShowBlock = minetest.settings:get_bool('postool.hud.defaultshowblock'),
 	hudShowMesecons = minetest.settings:get_bool('postool.hud.defaultshowmesecons') or false,
 	hudShowMeseconsDetails = minetest.settings:get_bool('postool.hud.defaultshowmeseconsdetails') or false,
+	hudShowBiome = minetest.settings:get_bool('postool.hud.defaultshowbiome') or false,
 	-- wait at least this long before updating hud
 	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
 	iCountToolUses = 0,
