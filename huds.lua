@@ -42,7 +42,7 @@ function postool.readPlayerToggles(oPlayer)
 	end
 
 	-- add chunk border toggle for tool usage, if not yet existing
-	if 6 == #sFlags then sFlags[7] = false end
+	if 6 == #tb then tb[7] = false end
 
 	return tb, '1' == sFlags:sub(1, 1), tMetaRef:get_float('postoolHUDx')
 
