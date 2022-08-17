@@ -32,7 +32,8 @@ function postool.readPlayerToggles(oPlayer)
 			true == postool.hudShowBlock,
 			true == postool.hudShowMesecons,
 			true == postool.hudShowMeseconsDetails,
-			false -- show chunk indicator
+			false, -- show chunk indicator
+			true == postool.hudShowBiome, 
 		}, true == postool.hudShowMain, postool.hudPosX
 	end -- if has none yet
 
@@ -42,8 +43,15 @@ function postool.readPlayerToggles(oPlayer)
 	end
 
 	-- add chunk border toggle for tool usage, if not yet existing
-	if 6 == #sFlags then sFlags[7] = false end
+	-- add biome toggle if not yet existing
+	if 6 == #sFlags then
+		sFlags[7] = false
+		sFlags[8] = false
+	elseif 7 == #sFlags then
+		sFlags[8] = false
+	end
 
+	-- boolean toggles, main toggle, x-position of HUD
 	return tb, '1' == sFlags:sub(1, 1), tMetaRef:get_float('postoolHUDx')
 
 end -- readPlayerToggles
@@ -96,7 +104,7 @@ function postool.statsString(oPlayer)
 	local lCount = {}
 	local iCountP = 0
 	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0 lCount[4] = 0
-	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0
+	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0 lCount[8] = 0
 	for _, tDB in pairs(postool.tHudDB) do
 		iCountP = iCountP + 1
 		if tDB.bMain then
@@ -125,8 +133,9 @@ function postool.statsString(oPlayer)
 		S('Mesecons'),
 		S('Details'),
 		S('Chunks'),
+		S('Biome'),
 	}
-	for i = 1, 7 do
+	for i = 1, 8 do
 		sOut = sOut .. lCount[i] .. ' ' .. lTitles[i] .. ' '
 	end
 
@@ -262,6 +271,33 @@ postool.rebuildHud = function(oPlayer)
 		tIDs.meseconsPenalty = nil
 
 	end -- mesecons
+
+	iID = tIDs.biome
+	if tb[8] then
+		if nil == iID then
+			tIDs.biome = oPlayer:hud_add({
+				hud_elem_type = 'text',
+				name = 'postoolBiome',
+				position = tPosition,
+				offset = { x = 0, y = iY },
+				text = 'Initializing...',
+				scale = HUD_SCALE,
+				alignment = HUD_ALIGNMENT,
+				number = postool.hudColour,
+				z_index = postool.hudPosZ,
+			})
+		else
+			setHudYoffset(oPlayer, iID, iY)
+		end
+
+		iY = iY + iDiff
+
+	elseif nil ~= iID then
+
+		oPlayer:hud_remove(iID)
+		tIDs.biome = nil
+
+	end -- biome
 
 	iID = tIDs.block
 	if tb[4] then
@@ -493,6 +529,12 @@ postool.updateHud = function(oPlayer)
 		oPlayer:hud_change(tIDs.time, 'text', postool.sTime)
 
 	end -- time
+	
+	if tb[8] then
+		
+		oPlayer:hud_change(tIDs.biome, 'text', postool.getBiomeDataForPlayer(oPlayer))
+		
+	end -- biome
 
 	postool.updateHudMesecons(oPlayer)
 
@@ -524,10 +566,10 @@ postool.removeHudElements = function(oPlayer)
 	if not tDB then return sName end
 
 	-- remove each hud
-	for i, iID in pairs(tDB.tIDs) do
+	for sKey, iID in pairs(tDB.tIDs) do
 
 		oPlayer:hud_remove(iID)
-		tDB.tIDs[i] = nil
+		tDB.tIDs[sKey] = nil
 
 	end
 
