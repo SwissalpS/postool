@@ -524,10 +524,10 @@ postool.removeHudElements = function(oPlayer)
 	if not tDB then return sName end
 
 	-- remove each hud
-	for i, iID in pairs(tDB.tIDs) do
+	for sKey, iID in pairs(tDB.tIDs) do
 
 		oPlayer:hud_remove(iID)
-		tDB.tIDs[i] = nil
+		tDB.tIDs[sKey] = nil
 
 	end
 
