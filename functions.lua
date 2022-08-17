@@ -76,6 +76,7 @@ postool.getBiomeDataForPlayer = function(oPlayer)
 
 	-- TODO: test what happens here if position is out of world
 	-- also test if position needs to be rounded
+	-- also consider other name as very easily confused with tDB
 	local tBD = minetest.get_biome_data(tPos)
 --print(dump(tBD))
 
