@@ -17,7 +17,7 @@ function postool.readPlayerToggles(oPlayer)
 
 	-- is_fake_player and corresponding player is offline?
 	if not oPlayer.get_meta then
-		return { false, false, false, false, false, false, false }, false, 0
+		return { false, false, false, false, false, false, false, false }, false, 0
 	end
 
 	local tMetaRef = oPlayer:get_meta()
@@ -33,7 +33,7 @@ function postool.readPlayerToggles(oPlayer)
 			true == postool.hudShowMesecons,
 			true == postool.hudShowMeseconsDetails,
 			false, -- show chunk indicator
-			true == postool.hudShowBiome, 
+			true == postool.hudShowBiome,
 		}, true == postool.hudShowMain, postool.hudPosX
 	end -- if has none yet
 
@@ -44,11 +44,11 @@ function postool.readPlayerToggles(oPlayer)
 
 	-- add chunk border toggle for tool usage, if not yet existing
 	-- add biome toggle if not yet existing
-	if 6 == #sFlags then
-		sFlags[7] = false
-		sFlags[8] = false
-	elseif 7 == #sFlags then
-		sFlags[8] = false
+	if 6 == #tb then
+		tb[7] = false
+		tb[8] = postool.hudShowBiome
+	elseif 7 == #tb then
+		tb[8] = postool.hudShowBiome
 	end
 
 	-- boolean toggles, main toggle, x-position of HUD
@@ -529,11 +529,11 @@ postool.updateHud = function(oPlayer)
 		oPlayer:hud_change(tIDs.time, 'text', postool.sTime)
 
 	end -- time
-	
+
 	if tb[8] then
-		
+
 		oPlayer:hud_change(tIDs.biome, 'text', postool.getBiomeDataForPlayer(oPlayer))
-		
+
 	end -- biome
 
 	postool.updateHudMesecons(oPlayer)
