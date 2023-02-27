@@ -41,4 +41,5 @@ postool.tool.griddisplayduration (Grid display duration) int 12 1 999
 # don't show chunk border indicator. Only shows up when not in center block.
 # Setting this to true makes it never show at all.
 postool.tool.suppresschunkindicator (Hide chunk border indicator) bool false
-
+# Show the heat and humidity values of your position to two decimal places.
+postool.biomedata.verbose (More biome data) bool false

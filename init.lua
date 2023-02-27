@@ -29,6 +29,7 @@ postool = {
 	hudShowMesecons = minetest.settings:get_bool('postool.hud.defaultshowmesecons') or false,
 	hudShowMeseconsDetails = minetest.settings:get_bool('postool.hud.defaultshowmeseconsdetails') or false,
 	hudShowBiome = minetest.settings:get_bool('postool.hud.defaultshowbiome') or false,
+	hudBiomeVerbose = minetest.settings:get_bool('postool.biomedata.verbose') or false,
 	-- wait at least this long before updating hud
 	hudMinUpdateInterval = tonumber(minetest.settings:get('postool.hud.minupdateinterval') or 2),
 	iCountToolUses = 0,
