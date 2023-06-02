@@ -44,6 +44,7 @@ postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
 -- deps
 postool.has_advtrains_mod = minetest.get_modpath('advtrains') and true
 postool.has_mesecons_debug_mod = minetest.get_modpath('mesecons_debug') and true
+postool.has_vizlib = minetest.get_modpath('vizlib') and postool.toolUseVizLib and true
 
 -- base path
 local sMP = minetest.get_modpath('postool')
