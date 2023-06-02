@@ -19,10 +19,10 @@ minetest.register_craftitem('postool:wand', {
 		if not lShapes or 0 == #lShapes then return nil end
 
 		minetest.after(postool.toolGridDisplayDuration,
-			function(lShapes)
-				local i = #lShapes
+			function(lShapeIDs)
+				local i = #lShapeIDs
 				repeat
-					vizlib.erase_shape(lShapes[i])
+					vizlib.erase_shape(lShapeIDs[i])
 					i = i - 1
 				until 0 == i
 			end, lShapes

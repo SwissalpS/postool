@@ -14,5 +14,5 @@ read_globals = {
 	"dump",
 
 	-- deps
-	"default", "advtrains", "mesecons_debug", "unified_inventory"
+	"default", "advtrains", "mesecons_debug", "unified_inventory", "vizlib"
 }
