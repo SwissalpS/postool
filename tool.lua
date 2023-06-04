@@ -1,3 +1,8 @@
+-- keep track of blocks that are lit up to reduce
+-- griefing of players with weak GPUs. Only when
+-- using vizlib
+local tActiveBlocks = {}
+
 -- register item
 minetest.register_craftitem('postool:wand', {
 
@@ -15,17 +20,18 @@ minetest.register_craftitem('postool:wand', {
 			return postool.show(oPlayer, oPointedThing)
 		end
 
-		local lShapes = postool.showVizLib(oPlayer, oPointedThing)
+		local lShapes, iHash = postool.showVizLib(oPlayer, oPointedThing)
 		if not lShapes or 0 == #lShapes then return nil end
 
 		minetest.after(postool.toolGridDisplayDuration,
-			function(lShapeIDs)
+			function(lShapeIDs, iBlockHash)
+				tActiveBlocks[iBlockHash] = tActiveBlocks[iBlockHash] - 1
 				local i = #lShapeIDs
 				repeat
 					vizlib.erase_shape(lShapeIDs[i])
 					i = i - 1
 				until 0 == i
-			end, lShapes
+			end, lShapes, iHash
 		)
 		return nil
 	end,
@@ -82,6 +88,15 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 
 	local _, tBlock = postool.getPositionTablesForPos(tPos)
 	local tBlockOrigin = { x = tBlock.x * 16, y = tBlock.y * 16, z = tBlock.z * 16 }
+	local iHash = minetest.hash_node_position(tBlockOrigin)
+	-- allow max two highlights per block
+	if not tActiveBlocks[iHash] then
+		tActiveBlocks[iHash] = 1
+	elseif 1 < tActiveBlocks[iHash] then
+		return nil
+	else
+		tActiveBlocks[iHash] = tActiveBlocks[iHash] + 1
+	end
 
 	-- and show it
 	local lShapes = {}
@@ -135,7 +150,7 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 
 	-- CHUNK INDICATOR --
 	-- respect server wide suppression
-	if postool.toolSuppressChunkIndicator then return lShapes end
+	if postool.toolSuppressChunkIndicator then return lShapes, iHash end
 
 	local bWantsChunk
 
@@ -149,7 +164,7 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 	end
 
 	-- only show chunk indicator if player has 'unlocked' it
-	if not bWantsChunk then return lShapes end
+	if not bWantsChunk then return lShapes, iHash end
 
 	-- do some math magic to figure out where in the current block
 	-- to place the chunk indicator. First make some alias to avoid long lines.
@@ -183,7 +198,7 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 	table.insert(lShapes, vizlib.draw_cube(
 			vector.add(tChunkOrigin, .5), 1, tOptions))
 
-	return lShapes
+	return lShapes, iHash
 
 end -- showVizLib
 
