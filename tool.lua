@@ -127,7 +127,7 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 	until -1 == i
 	--]]
 	-- alternate to grids, circles
-	--[[ disabled for performance
+	-- [[
 	table.insert(lShapes, vizlib.draw_circle(
 		vector.add(tBlockOrigin, { x = -.5, y = 7.5, z = 7.5 }),
 		8, 'x', tOptions))
@@ -145,7 +145,26 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 		8, 'z', tOptions))
 	table.insert(lShapes, vizlib.draw_circle(
 		vector.add(tBlockOrigin, { x = 7.5, y = 7.5, z = 15.5 }),
-		8, 'z', tOptions))
+		8, 'z', tOptions))--]]
+	--[[ disabled for performance
+	table.insert(lShapes, vizlib.draw_circle(
+		vector.add(tBlockOrigin, { x = -.5, y = 7.5, z = 7.5 }),
+		4, 'x', tOptions))
+	table.insert(lShapes, vizlib.draw_circle(
+		vector.add(tBlockOrigin, { x = 15.5, y = 7.5, z = 7.5 }),
+		4, 'x', tOptions))
+	table.insert(lShapes, vizlib.draw_circle(
+		vector.add(tBlockOrigin, { x = 7.5, y = -.5, z = 7.5 }),
+		4, 'y', tOptions))
+	table.insert(lShapes, vizlib.draw_circle(
+		vector.add(tBlockOrigin, { x = 7.5, y = 15.5, z = 7.5 }),
+		4, 'y', tOptions))
+	table.insert(lShapes, vizlib.draw_circle(
+		vector.add(tBlockOrigin, { x = 7.5, y = 7.5, z = -.5 }),
+		4, 'z', tOptions))
+	table.insert(lShapes, vizlib.draw_circle(
+		vector.add(tBlockOrigin, { x = 7.5, y = 7.5, z = 15.5 }),
+		4, 'z', tOptions))
 	--]]
 
 	-- CHUNK INDICATOR --
