@@ -110,22 +110,6 @@ postool.showVizLib = function(oPlayer, oPointedThing)
 	table.insert(lShapes, vizlib.draw_cube(
 		vector.add(tBlockOrigin, 0), .5, tOptions))
 	--]]
-	-- grids
-	--[[ disabled for performance
-	local i = 14
-	repeat
-		table.insert(lShapes, vizlib.draw_square(
-			vector.add(tBlockOrigin, { x = .5 + i, y = 7.5, z = 7.5 }),
-			8, 'x', tOptions))
-		table.insert(lShapes, vizlib.draw_square(
-			vector.add(tBlockOrigin, { x = 7.5, y = .5 + i, z = 7.5 }),
-			8, 'y', tOptions))
-		table.insert(lShapes, vizlib.draw_square(
-			vector.add(tBlockOrigin, { x = 7.5, y = 7.5, z = .5 + i }),
-			8, 'z', tOptions))
-		i = i - 1
-	until -1 == i
-	--]]
 	-- alternate to grids, circles
 	-- [[
 	table.insert(lShapes, vizlib.draw_circle(
