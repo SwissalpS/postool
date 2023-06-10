@@ -106,6 +106,7 @@ function postool.statsString(oPlayer)
 	local iCountP = 0
 	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0 lCount[4] = 0
 	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0 lCount[8] = 0 lCount[9] = 0
+  
 	for _, tDB in pairs(postool.tHudDB) do
 		iCountP = iCountP + 1
 		if tDB.bMain then

@@ -70,6 +70,10 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 		tDB.tb[5] = 'true' == tFields.bMesecons
 	end
 
+	if nil ~= tFields.bBiome then
+		tDB.tb[8] = 'true' == tFields.bBiome
+	end
+
 	if nil ~= tFields.bMeseconsDetails then
 		tDB.tb[6] = 'true' == tFields.bMeseconsDetails
 		postool.savePlayerToggles(oPlayer)

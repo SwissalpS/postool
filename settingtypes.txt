@@ -47,4 +47,3 @@ postool.tool.suppresschunkindicator (Hide chunk border indicator) bool false
 # It can be very intensive for clients when multiple indicators are shown at
 # the same time, so the default is false.
 postool.tool.usevizlib (Use vizlib mod for particle indicators) bool false
-
