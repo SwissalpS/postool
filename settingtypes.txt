@@ -34,6 +34,8 @@ postool.hud.defaultshowmesecons (Show mesecon info by default) bool false
 postool.hud.defaultshowmeseconsdetails (Show mesecon details by default) bool false
 # Show biome data by default
 postool.hud.defaultshowbiome (Show biome data by default) bool false
+# Show the heat and humidity values of your position to two decimal places.
+postool.hud.defaultshowverbosebiomedata (More biome data) bool false
 # wait at least this long before updating HUD (seconds)
 postool.hud.minupdateinterval (Update HUD interval) int 2 1 999
 # wait at least this long before grid vanishes
