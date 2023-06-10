@@ -80,6 +80,10 @@ postool.register_on_player_receive_fields = function(oPlayer, sFormName, tFields
 		tDB.tb[8] = 'true' == tFields.bBiome
 	end
 
+	if nil ~= tFields.bBiomeVerbose then
+		tDB.tb[9] = 'true' == tFields.bBiomeVerbose
+	end
+
 	-- Buttons also respond right away
 	if nil ~= tFields.butToggle then
 		postool.toggleHudPosition(oPlayer)
