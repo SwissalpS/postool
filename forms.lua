@@ -21,6 +21,7 @@ postool.showConfigFormspec = function(oPlayer)
 		.. 'checkbox[2,1.75;bMeseconsDetails;' .. S('Details') .. ';' .. tostring(tb[6]) .. ']'
 	end sFormspec = sFormspec
 		.. 'checkbox[0,2.25;bBiome;' .. postool.hudTitleBiome .. ';' .. tostring(tb[8]) .. ']'
+		.. 'checkbox[2,2.25;bBiomeVerbose;' .. S('Details') .. ';' .. tostring(tb[9]) .. ']'
 		.. 'button[0,3;4,1;butToggle;' .. S('Toggle Position') .. ']'
 
 	minetest.show_formspec(sName, sPosToolFormNameConfig, sFormspec)
