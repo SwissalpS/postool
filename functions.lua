@@ -66,9 +66,10 @@ postool.hasMeseconsDebug = function()
 end -- hasMeseconsDebug
 
 
--- return a string to show on HUD containing info about biome that player is standing on
+-- return a string to show on HUD containing info about biome that player
+-- is standing on
 -- thanks to Montandalar for initial method
-postool.getBiomeDataForPlayer = function(oPlayer)
+postool.getBiomeDataForPlayer = function(oPlayer, bVerbose)
 
 	local tPos = oPlayer:get_pos()
 	-- Biome data for node below feet, otherwise it may be innacurate
@@ -81,16 +82,19 @@ postool.getBiomeDataForPlayer = function(oPlayer)
 		return postool.hudTitleBiome .. 'N/A'
 	end
 
-	return string.format('%s%s (%d)',
+	if bVerbose then
+		return string.format('%s%s (%d) Heat: %.2f Humidity: %.2f',
 		postool.hudTitleBiome,
 		minetest.get_biome_name(tBiome.biome),
-		tBiome.biome)
+		tBiome.biome, tBiome.heat, tBiome.humidity)
 
-	-- more verbose variant:
-	-- return string.format('%s%s (%d) Heat: %.2f Humidity: %.2f',
-	-- 	postool.hudTitleBiome,
-	-- 	minetest.get_biome_name(tBiome.biome),
-	-- 	tBiome.biome, tBiome.heat, tBiome.humidity)
+	else
+		return string.format('%s%s (%d)',
+			postool.hudTitleBiome,
+			minetest.get_biome_name(tBiome.biome),
+			tBiome.biome)
+
+	end
 
 end -- getBiomeDataForPlayer
 
