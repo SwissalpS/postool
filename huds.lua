@@ -532,7 +532,8 @@ postool.updateHud = function(oPlayer)
 
 	if tb[8] then
 
-		oPlayer:hud_change(tIDs.biome, 'text', postool.getBiomeDataForPlayer(oPlayer))
+		oPlayer:hud_change(tIDs.biome, 'text',
+			postool.getBiomeDataForPlayer(oPlayer, postool.hudShowBiomeVerbose))
 
 	end -- biome
 
