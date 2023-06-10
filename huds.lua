@@ -17,7 +17,7 @@ function postool.readPlayerToggles(oPlayer)
 
 	-- is_fake_player and corresponding player is offline?
 	if not oPlayer.get_meta then
-		return { false, false, false, false, false, false, false, false }, false, 0
+		return { false, false, false, false, false, false, false, false, false }, false, 0
 	end
 
 	local tMetaRef = oPlayer:get_meta()
@@ -34,6 +34,7 @@ function postool.readPlayerToggles(oPlayer)
 			true == postool.hudShowMeseconsDetails,
 			false, -- show chunk indicator
 			true == postool.hudShowBiome,
+			true == postool.hudShowBiomeVerbose,
 		}, true == postool.hudShowMain, postool.hudPosX
 	end -- if has none yet
 
@@ -104,7 +105,7 @@ function postool.statsString(oPlayer)
 	local lCount = {}
 	local iCountP = 0
 	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0 lCount[4] = 0
-	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0 lCount[8] = 0
+	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0 lCount[8] = 0 lCount[9] = 0
 	for _, tDB in pairs(postool.tHudDB) do
 		iCountP = iCountP + 1
 		if tDB.bMain then
@@ -134,8 +135,9 @@ function postool.statsString(oPlayer)
 		S('Details'),
 		S('Chunks'),
 		S('Biome'),
+		S('Details'),
 	}
-	for i = 1, 8 do
+	for i = 1, 9 do
 		sOut = sOut .. lCount[i] .. ' ' .. lTitles[i] .. ' '
 	end
 
