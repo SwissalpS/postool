@@ -45,11 +45,11 @@ function postool.readPlayerToggles(oPlayer)
 
 	-- add chunk border toggle for tool usage, if not yet existing
 	-- add biome toggle if not yet existing
-	if 6 == #tb then
-		tb[7] = false
-		tb[8] = postool.hudShowBiome
-	elseif 7 == #tb then
-		tb[8] = postool.hudShowBiome
+	-- add biome verbose toggle if not yet existing
+	if 9 > #tb then
+		tb[7] = nil == tb[7] and false or tb[7]
+		tb[8] = nil == tb[8] and postool.hudShowBiome or tb[8]
+		tb[9] = postool.hudShowBiomeVerbose
 	end
 
 	-- boolean toggles, main toggle, x-position of HUD
