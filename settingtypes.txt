@@ -43,4 +43,8 @@ postool.tool.griddisplayduration (Grid display duration) int 12 1 999
 # don't show chunk border indicator. Only shows up when not in center block.
 # Setting this to true makes it never show at all.
 postool.tool.suppresschunkindicator (Hide chunk border indicator) bool false
+# Use vizlib mod for particle spawner block indicator instead of entities.
+# It can be very intensive for clients when multiple indicators are shown at
+# the same time, so the default is false.
+postool.tool.usevizlib (Use vizlib mod for particle indicators) bool false
 

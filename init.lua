@@ -7,7 +7,7 @@ local function S(s) return s end
 
 --settings
 postool = {
-	version = 20220214.0214,
+	version = 20230604.1422,
 	S = S,
 	-- Position of hud
 	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),
@@ -37,6 +37,7 @@ postool = {
 	serverChunkSize = math.max(1, tonumber(minetest.settings:get('chunksize') or 5)),
 	toolGridDisplayDuration = tonumber(minetest.settings:get('postool.tool.griddisplayduration') or 12),
 	toolSuppressChunkIndicator = minetest.settings:get_bool('postool.tool.suppresschunkindicator') or false,
+	toolUseVizLib = minetest.settings:get_bool('postool.tool.usevizlib') or false,
 }
 if nil == postool.hudShowNode then postool.hudShowNode = true end
 if nil == postool.hudShowBlock then postool.hudShowBlock = true end
@@ -46,6 +47,7 @@ postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
 -- deps
 postool.has_advtrains_mod = minetest.get_modpath('advtrains') and true
 postool.has_mesecons_debug_mod = minetest.get_modpath('mesecons_debug') and true
+postool.has_vizlib = minetest.get_modpath('vizlib') and postool.toolUseVizLib and true
 
 -- base path
 local sMP = minetest.get_modpath('postool')
