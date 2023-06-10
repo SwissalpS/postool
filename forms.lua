@@ -7,8 +7,8 @@ postool.showConfigFormspec = function(oPlayer)
 	local tb, bMain, _ = postool.readPlayerToggles(oPlayer)
 	local sName = oPlayer:get_player_name()
 
-	local sFormspec = 'size[3.1,3.25;]'
-		.. 'label[-0.2,-0.2;' .. S('PosTool HUD Configuration') .. ']'
+	local sFormspec = 'size[4,3.25;]'
+		.. 'label[-0.1,-0.2;' .. S('PosTool HUD Configuration') .. ']'
 		.. 'checkbox[1,0.25;bMain;' .. S('Main') .. ';' .. tostring(bMain) .. ']'
 	if postool.hasAdvancedTrains() then sFormspec = sFormspec
 		.. 'checkbox[0,0.75;bTrain;' .. postool.hudTitleTrain .. ';' .. tostring(tb[1]) .. ']'
@@ -20,7 +20,7 @@ postool.showConfigFormspec = function(oPlayer)
 		.. 'checkbox[0,1.75;bMesecons;' .. postool.hudTitleMesecons .. ';' .. tostring(tb[5]) .. ']'
 		.. 'checkbox[2,1.75;bMeseconsDetails;' .. S('Details') .. ';' .. tostring(tb[6]) .. ']'
 	end sFormspec = sFormspec
-		.. 'button[0,2.5;3,1;butToggle;' .. S('Toggle Position') .. ']'
+		.. 'button[0,2.5;4,1;butToggle;' .. S('Toggle Position') .. ']'
 
 	minetest.show_formspec(sName, sPosToolFormNameConfig, sFormspec)
 
