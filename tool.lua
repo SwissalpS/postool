@@ -3,6 +3,26 @@
 -- using vizlib
 local tActiveBlocks = {}
 
+local function generate_is_ground_content_list()
+
+	local tNonGroundContent = {}
+	local mod, i
+	for node, def in pairs(minetest.registered_nodes) do
+		if true == def.is_ground_content then
+			mod = def.mod_origin or '<unknown>'
+			if tNonGroundContent[mod] then
+				i = #tNonGroundContent[mod] + 1
+				tNonGroundContent[mod][i] = node
+			else
+				tNonGroundContent[mod] = { node }
+			end
+		end
+	end
+	print(dump(tNonGroundContent))
+
+end -- generate_is_ground_content_list
+
+
 -- register item
 minetest.register_craftitem('postool:wand', {
 
@@ -16,6 +36,7 @@ minetest.register_craftitem('postool:wand', {
 
 	-- luacheck: no unused args
 	on_use = function(oItemstack, oPlayer, oPointedThing)
+		generate_is_ground_content_list()
 		if not postool.has_vizlib then
 			return postool.show(oPlayer, oPointedThing)
 		end
