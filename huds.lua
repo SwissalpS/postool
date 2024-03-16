@@ -3,7 +3,10 @@ local HUD_ALIGNMENT = { x = 1, y = 0 }
 local HUD_SCALE = { x = 100, y = 100 }
 local HUD_STATBAR_SIZE = { x = 160, y = 18 }
 
--- hud id map (playername -> { playername = { tIDs = { hud-ids }, tb = { toggles }, ... )
+-- hud id map { playername = {
+--   tIDs = { <hud-ids[table]> },
+--   tb = { <toggles[list of bool]> },
+--   bMain = <bool>, nX = <float>, iCountRuns = <int> }, ... }
 postool.tHudDB = {}
 -- holds the train time portion that is same for all players
 postool.sTrain = ''
@@ -17,14 +20,16 @@ function postool.readPlayerToggles(oPlayer)
 
 	-- is_fake_player and corresponding player is offline?
 	if not oPlayer.get_meta then
-		return { false, false, false, false, false, false, false, false, false }, false, 0
+		return {
+			false, false, false, false, false, false, false, false, false
+		}, false, 0
 	end
 
-	local tMetaRef = oPlayer:get_meta()
-	local sFlags = tMetaRef:get_string('postoolHUDflags')
+	local oMetaRef = oPlayer:get_meta()
+	local sFlags = oMetaRef:get_string('postoolHUDflags')
 
 	if '' == sFlags then
-		tMetaRef:set_float('postoolHUDx', postool.hudPosX)
+		oMetaRef:set_float('postoolHUDx', postool.hudPosX)
 		return {
 			true == postool.hudShowTrain,
 			true == postool.hudShowTime,
@@ -53,12 +58,13 @@ function postool.readPlayerToggles(oPlayer)
 	end
 
 	-- boolean toggles, main toggle, x-position of HUD
-	return tb, '1' == sFlags:sub(1, 1), tMetaRef:get_float('postoolHUDx')
+	return tb, '1' == sFlags:sub(1, 1),
+			oMetaRef:get_float('postoolHUDx')
 
 end -- readPlayerToggles
 
 
-local function boolToString(b) if b then return '1' else return '0' end end
+local function boolToString(b) return b and '1' or '0' end
 function postool.savePlayerToggles(oPlayer)
 
 	local _, tb, bMain, nX = postool.getPlayerTables(oPlayer)
@@ -68,9 +74,9 @@ function postool.savePlayerToggles(oPlayer)
 		sOut = sOut .. boolToString(b)
 	end
 
-	local tMetaRef = oPlayer:get_meta()
-	tMetaRef:set_string('postoolHUDflags', sOut)
-	tMetaRef:set_float('postoolHUDx', nX)
+	local oMetaRef = oPlayer:get_meta()
+	oMetaRef:set_string('postoolHUDflags', sOut)
+	oMetaRef:set_float('postoolHUDx', nX)
 
 end -- savePlayerToggles
 
@@ -104,9 +110,9 @@ function postool.statsString(oPlayer)
 
 	local lCount = {}
 	local iCountP = 0
-	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0 lCount[4] = 0
-	lCount[5] = 0 lCount[6] = 0 lCount[7] = 0 lCount[8] = 0 lCount[9] = 0
-  
+	lCount[0] = 0 lCount[1] = 0 lCount[2] = 0 lCount[3] = 0
+	lCount[4] = 0 lCount[5] = 0 lCount[6] = 0 lCount[7] = 0
+	lCount[8] = 0 lCount[9] = 0
 	for _, tDB in pairs(postool.tHudDB) do
 		iCountP = iCountP + 1
 		if tDB.bMain then
@@ -120,7 +126,8 @@ function postool.statsString(oPlayer)
 	local sOut = '[postool] ' .. tostring(postool.version)
 			.. '\nSince last reboot, postool has been used '
 			.. tostring(postool.iCountToolUses) .. ' times.\n'
-			.. tostring(lCount[0]) .. ' of the ' .. tostring(iCountP)
+			.. tostring(lCount[0]) .. ' of the '
+			.. tostring(iCountP)
 			.. ' currently online players have postool HUD on.\n'
 
 	-- nobody has it activated so no need to gather more information
@@ -168,7 +175,8 @@ postool.getPlayerTables = function(oPlayer, bRef)
 	local tDB = postool.tHudDB[sName]
 
 	if not tDB then
-		-- happens when player is not online but has postool in a machine
+		-- happens when player is not online but has
+		-- postool in a machine
 		postool.initHud(oPlayer)
 		tDB = postool.tHudDB[sName]
 		tDB.bIsFake = true
@@ -206,9 +214,9 @@ postool.toggleHudPosition = function(oPlayer)
 
 	-- apply new position
 	for _, iID in pairs(tDB.tIDs) do
-
-		oPlayer:hud_change(iID, 'position', tPosNew)
-
+		if iID then
+			oPlayer:hud_change(iID, 'position', tPosNew)
+		end
 	end
 
 end -- toggleHudPosition
@@ -268,9 +276,13 @@ postool.rebuildHud = function(oPlayer)
 	elseif nil ~= iID then
 
 		oPlayer:hud_remove(iID)
-		oPlayer:hud_remove(tIDs.meseconsUsageFG)
+		if tIDs.meseconsUsageFG then
+			oPlayer:hud_remove(tIDs.meseconsUsageFG)
+		end
 		tIDs.meseconsUsageFG = nil
-		oPlayer:hud_remove(tIDs.meseconsPenalty)
+		if tIDs.meseconsPenalty then
+			oPlayer:hud_remove(tIDs.meseconsPenalty)
+		end
 		tIDs.meseconsPenalty = nil
 
 	end -- mesecons
@@ -446,7 +458,8 @@ postool.updateHudMesecons = function(oPlayer)
 	local tIDs, tb = postool.getPlayerTables(oPlayer)
 
 	-- not active or no mesecons at all
-	-- we check for existance of hud-element rather than using function to check
+	-- we check for existance of hud-element rather than
+	-- using function to check
 	if not (tb[5] and tIDs.meseconsPenalty) then return end
 
 	local tPos = oPlayer:get_pos()
@@ -462,11 +475,15 @@ postool.updateHudMesecons = function(oPlayer)
 		if 0 == nMaxUsageMicros then nMaxUsageMicros = 1 end
 		nPercent = math.floor(tCtx.avg_micros / nMaxUsageMicros * 100)
 
-		sPenalty = 'Penalty: ' .. tostring(math.floor(tCtx.penalty * 10) / 10) .. ' s'
+		sPenalty = 'Penalty: '
+				.. tostring(math.floor(tCtx.penalty * 10) / 10)
+				.. ' s'
+
 		if bDetails then
 
-			sDetails = '\nUsage: ' .. tostring(tCtx.avg_micros) .. ' us/s ('
-						.. tostring(nPercent) .. '%) \n'
+			sDetails = '\nUsage: ' .. tostring(tCtx.avg_micros)
+					.. ' us/s ('
+					.. tostring(nPercent) .. '%) \n'
 
 		end
 
@@ -504,13 +521,18 @@ postool.updateHudMesecons = function(oPlayer)
 
 	sPenalty = sDetails .. sPenalty
 
-	oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
-	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
-	-- give a minimum to show, so can see red penalty even when no usage
-	oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
-		x = math.max(8, .01 * nPercent * HUD_STATBAR_SIZE.x),
-		y = HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
-	})
+	if tIDs.meseconsPenalty then
+		oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
+	end
+	if tIDs.meseconsUsageFG then
+		oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
+		-- give a minimum to show, so can see red penalty
+		-- even when no usage
+		oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
+			x = math.max(8, .01 * nPercent * HUD_STATBAR_SIZE.x),
+			y = HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
+		})
+	end
 end -- updateHudMesecons
 
 
@@ -533,7 +555,7 @@ postool.updateHud = function(oPlayer)
 
 	end -- time
 
-	if tb[8] then
+	if tb[8] and tIDs.biome then
 
 		oPlayer:hud_change(tIDs.biome, 'text',
 			postool.getBiomeDataForPlayer(oPlayer, tb[9]))
@@ -572,7 +594,9 @@ postool.removeHudElements = function(oPlayer)
 	-- remove each hud
 	for sKey, iID in pairs(tDB.tIDs) do
 
-		oPlayer:hud_remove(iID)
+		if iID then
+			oPlayer:hud_remove(iID)
+		end
 		tDB.tIDs[sKey] = nil
 
 	end
@@ -648,7 +672,9 @@ postool.register_globalstep = function()
 		sName = oPlayer:get_player_name()
 		tDB = postool.tHudDB[sName]
 		if not tDB then
-			print('[postool]register_globalstep: player not yet registered, globalstep fired before on join player has run')
+			print('[postool]register_globalstep: player not '
+					.. 'yet registered, globalstep fired '
+					.. 'before on join player has run')
 
 		else
 
