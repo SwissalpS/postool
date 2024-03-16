@@ -203,9 +203,9 @@ postool.toggleHudPosition = function(oPlayer)
 
 	-- apply new position
 	for _, iID in pairs(tDB.tIDs) do
-
-		oPlayer:hud_change(iID, 'position', tPosNew)
-
+		if iID then
+			oPlayer:hud_change(iID, 'position', tPosNew)
+		end
 	end
 
 end -- toggleHudPosition
@@ -265,9 +265,13 @@ postool.rebuildHud = function(oPlayer)
 	elseif nil ~= iID then
 
 		oPlayer:hud_remove(iID)
-		oPlayer:hud_remove(tIDs.meseconsUsageFG)
+		if tIDs.meseconsUsageFG then
+			oPlayer:hud_remove(tIDs.meseconsUsageFG)
+		end
 		tIDs.meseconsUsageFG = nil
-		oPlayer:hud_remove(tIDs.meseconsPenalty)
+		if tIDs.meseconsPenalty then
+			oPlayer:hud_remove(tIDs.meseconsPenalty)
+		end
 		tIDs.meseconsPenalty = nil
 
 	end -- mesecons
@@ -479,13 +483,18 @@ postool.updateHudMesecons = function(oPlayer)
 
 	sPenalty = sDetails .. sPenalty
 
-	oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
-	oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
-	-- give a minimum to show, so can see red penalty even when no usage
-	oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
-		x = math.max(8, .01 * nPercent * HUD_STATBAR_SIZE.x),
-		y = HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
-	})
+	if tIDs.meseconsPenalty then
+		oPlayer:hud_change(tIDs.meseconsPenalty, 'text', sPenalty)
+	end
+	if tIDs.meseconsUsageFG then
+		oPlayer:hud_change(tIDs.meseconsUsageFG, 'text', sTexture)
+		-- give a minimum to show, so can see red penalty
+		-- even when no usage
+		oPlayer:hud_change(tIDs.meseconsUsageFG, 'size', {
+			x = math.max(8, .01 * nPercent * HUD_STATBAR_SIZE.x),
+			y = HUD_STATBAR_SIZE.y + math.floor(tCtx.penalty * 16)
+		})
+	end
 end -- updateHudMesecons
 
 
@@ -540,7 +549,9 @@ postool.removeHudElements = function(oPlayer)
 	-- remove each hud
 	for sKey, iID in pairs(tDB.tIDs) do
 
-		oPlayer:hud_remove(iID)
+		if iID then
+			oPlayer:hud_remove(iID)
+		end
 		tDB.tIDs[sKey] = nil
 
 	end
