@@ -293,7 +293,7 @@ postool.rebuildHud = function(oPlayer)
 	if tb[8] then
 		if nil == iID then
 			tIDs.biome = oPlayer:hud_add({
-				hud_elem_type = 'text',
+				[HUD_TYPE_FIELD] = 'text',
 				name = 'postoolBiome',
 				position = tPosition,
 				offset = { x = 0, y = iY },
