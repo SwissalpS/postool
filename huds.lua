@@ -2,6 +2,8 @@ local HUD_POSITION = { x = postool.hudPosX, y = postool.hudPosY }
 local HUD_ALIGNMENT = { x = 1, y = 0 }
 local HUD_SCALE = { x = 100, y = 100 }
 local HUD_STATBAR_SIZE = { x = 160, y = 18 }
+local HUD_TYPE_FIELD = minetest.features.hud_def_type_field
+						and 'type' or 'hud_elem_type'
 
 -- hud id map { playername = {
 --   tIDs = { <hud-ids[table]> },
@@ -236,7 +238,7 @@ postool.rebuildHud = function(oPlayer)
 
 		if nil == iID then
 			tIDs.meseconsUsageFG = oPlayer:hud_add({
-				hud_elem_type = 'statbar',
+				[HUD_TYPE_FIELD] = 'statbar',
 				name = 'postoolMeseconsUsageFG',
 				position = tPosition,
 				offset = { x = -2, y = iY - 27 },
@@ -248,7 +250,7 @@ postool.rebuildHud = function(oPlayer)
 				z_index = postool.hudPosZ,
 			})
 			tIDs.meseconsPenalty = oPlayer:hud_add({
-				hud_elem_type = 'text',
+				[HUD_TYPE_FIELD] = 'text',
 				name = 'postoolMeseconsPenalty',
 				position = tPosition,
 				offset = { x = 0, y = -16 },
@@ -280,7 +282,7 @@ postool.rebuildHud = function(oPlayer)
 	if tb[4] then
 		if nil == iID then
 			tIDs.block = oPlayer:hud_add({
-				hud_elem_type = 'text',
+				[HUD_TYPE_FIELD] = 'text',
 				name = 'postoolBlock',
 				position = tPosition,
 				offset = { x = 0, y = iY },
@@ -308,7 +310,7 @@ postool.rebuildHud = function(oPlayer)
 
 		if nil == iID then
 			tIDs.node = oPlayer:hud_add({
-				hud_elem_type = 'text',
+				[HUD_TYPE_FIELD] = 'text',
 				name = 'postoolNode',
 				position = tPosition,
 				offset = { x = 0, y = iY },
@@ -336,7 +338,7 @@ postool.rebuildHud = function(oPlayer)
 
 		if nil == iID then
 			tIDs.time = oPlayer:hud_add({
-				hud_elem_type = 'text',
+				[HUD_TYPE_FIELD] = 'text',
 				name = 'postoolTime',
 				position = tPosition,
 				offset = { x = 0, y = iY },
@@ -364,7 +366,7 @@ postool.rebuildHud = function(oPlayer)
 
 		if nil == iID then
 			tIDs.trainTime = oPlayer:hud_add({
-				hud_elem_type = 'text',
+				[HUD_TYPE_FIELD] = 'text',
 				name = 'postoolTrainTime',
 				position = tPosition,
 				offset = { x = 0, y = iY },
