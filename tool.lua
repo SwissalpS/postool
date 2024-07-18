@@ -1,3 +1,7 @@
+-- backward compatibility for use_texture_alpha field of node def
+local USE_ALPHA_VALUE = minetest.features.use_texture_alpha_string_modes
+						and 'clip' or true
+
 -- keep track of blocks that are lit up to reduce
 -- griefing of players with weak GPUs. Only when
 -- using vizlib
@@ -276,14 +280,16 @@ end -- show
 -- display entity shown when postool is used
 minetest.register_entity('postool:display', {
 
-	physical = false,
-	collisionbox = { 0, 0, 0, 0, 0, 0 },
-	visual = 'wielditem',
-	-- wielditem seems to be scaled to 1.5 times original node size
-	visual_size = { x = 0.67, y = 0.67 },
-	textures = {'postool:display_node'},
+	initial_properties = {
+		physical = false,
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
+		visual = 'wielditem',
+		-- wielditem seems to be scaled to 1.5 times original node size
+		visual_size = { x = 0.67, y = 0.67 },
+		textures = {'postool:display_node'},
+		glow = 10,
+	},
 	timer = 0,
-	glow = 10,
 
 	on_step = function(self, dtime)
 
@@ -302,14 +308,16 @@ minetest.register_entity('postool:display', {
 -- display entity shown when postool is used near a chunk border
 minetest.register_entity('postool:display_chunk', {
 
-	physical = false,
-	collisionbox = { 0, 0, 0, 0, 0, 0 },
-	visual = 'wielditem',
-	-- wielditem seems to be scaled to 1.5 times original node size
-	visual_size = { x = 0.67, y = 0.67 },
-	textures = {'postool:display_chunk_node'},
+	initial_properties = {
+		physical = false,
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
+		visual = 'wielditem',
+		-- wielditem seems to be scaled to 1.5 times original node size
+		visual_size = { x = 0.67, y = 0.67 },
+		textures = {'postool:display_chunk_node'},
+		glow = 10,
+	},
 	timer = 0,
-	glow = 10,
 
 	on_step = function(self, dtime)
 
@@ -329,7 +337,7 @@ minetest.register_entity('postool:display_chunk', {
 minetest.register_node('postool:display_node', {
 
 	tiles = { 'postool_display.png' },
-	use_texture_alpha = true,
+	use_texture_alpha = USE_ALPHA_VALUE,
 	walkable = false,
 	drawtype = 'nodebox',
 	node_box = {
@@ -372,7 +380,7 @@ minetest.register_node('postool:display_node', {
 minetest.register_node('postool:display_chunk_node', {
 
 	tiles = { 'postool_display.png' },
-	use_texture_alpha = true,
+	use_texture_alpha = USE_ALPHA_VALUE,
 	walkable = false,
 	color = '#0fff0f', --#ff0f0f',
 	drawtype = 'nodebox',
