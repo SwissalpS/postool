@@ -280,14 +280,16 @@ end -- show
 -- display entity shown when postool is used
 minetest.register_entity('postool:display', {
 
-	physical = false,
-	collisionbox = { 0, 0, 0, 0, 0, 0 },
-	visual = 'wielditem',
-	-- wielditem seems to be scaled to 1.5 times original node size
-	visual_size = { x = 0.67, y = 0.67 },
-	textures = {'postool:display_node'},
+	initial_properties = {
+		physical = false,
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
+		visual = 'wielditem',
+		-- wielditem seems to be scaled to 1.5 times original node size
+		visual_size = { x = 0.67, y = 0.67 },
+		textures = {'postool:display_node'},
+		glow = 10,
+	},
 	timer = 0,
-	glow = 10,
 
 	on_step = function(self, dtime)
 
@@ -306,14 +308,16 @@ minetest.register_entity('postool:display', {
 -- display entity shown when postool is used near a chunk border
 minetest.register_entity('postool:display_chunk', {
 
-	physical = false,
-	collisionbox = { 0, 0, 0, 0, 0, 0 },
-	visual = 'wielditem',
-	-- wielditem seems to be scaled to 1.5 times original node size
-	visual_size = { x = 0.67, y = 0.67 },
-	textures = {'postool:display_chunk_node'},
+	initial_properties = {
+		physical = false,
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
+		visual = 'wielditem',
+		-- wielditem seems to be scaled to 1.5 times original node size
+		visual_size = { x = 0.67, y = 0.67 },
+		textures = {'postool:display_chunk_node'},
+		glow = 10,
+	},
 	timer = 0,
-	glow = 10,
 
 	on_step = function(self, dtime)
 
