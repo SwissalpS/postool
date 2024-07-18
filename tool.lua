@@ -1,3 +1,7 @@
+-- backward compatibility for use_texture_alpha field of node def
+local USE_ALPHA_VALUE = minetest.features.use_texture_alpha_string_modes
+						and 'clip' or true
+
 -- keep track of blocks that are lit up to reduce
 -- griefing of players with weak GPUs. Only when
 -- using vizlib
@@ -329,7 +333,7 @@ minetest.register_entity('postool:display_chunk', {
 minetest.register_node('postool:display_node', {
 
 	tiles = { 'postool_display.png' },
-	use_texture_alpha = true,
+	use_texture_alpha = USE_ALPHA_VALUE,
 	walkable = false,
 	drawtype = 'nodebox',
 	node_box = {
@@ -372,7 +376,7 @@ minetest.register_node('postool:display_node', {
 minetest.register_node('postool:display_chunk_node', {
 
 	tiles = { 'postool_display.png' },
-	use_texture_alpha = true,
+	use_texture_alpha = USE_ALPHA_VALUE,
 	walkable = false,
 	color = '#0fff0f', --#ff0f0f',
 	drawtype = 'nodebox',
