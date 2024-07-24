@@ -7,7 +7,7 @@ local function S(s) return s end
 
 --settings
 postool = {
-	version = 20240718.2107,
+	version = 20240723.2039,
 	S = S,
 	-- Position of hud
 	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),
@@ -39,7 +39,7 @@ postool = {
 if nil == postool.hudShowNode then postool.hudShowNode = true end
 if nil == postool.hudShowBlock then postool.hudShowBlock = true end
 
-postool.hudColour = 0xFFFFFF  --text colour in hex format default is white
+postool.hudColour = 0xFFFFFF  -- text colour in hex format default is white
 
 -- deps
 postool.has_advtrains_mod = minetest.get_modpath('advtrains') and true
