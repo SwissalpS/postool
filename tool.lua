@@ -50,14 +50,28 @@ minetest.register_craftitem('postool:wand', {
 }) -- register_craftitem
 
 
+-- determine materials for crafting
+local materials = {}
+if minetest.get_modpath('xcompat') then
+	-- let xcompat deal with material strings
+	materials.glass = xcompat.materials.glass
+	materials.stick = xcompat.materials.stick
+	materials.torch = xcompat.materials.torch
+else
+	-- assume default game
+	materials.glass = 'default:glass'
+	materials.stick = 'default:stick'
+	materials.torch = 'default:torch'
+end
+
 -- register craft
 minetest.register_craft({
 
 	output = 'postool:wand 1',
 	recipe = {
-		{ '', '', 'default:glass' },
-		{ '', 'default:torch', '' },
-		{ 'default:stick', '', '' }
+		{ '', '', materials.glass },
+		{ '', materials.torch, '' },
+		{ materials.stick, '', '' }
 	}
 
 }) -- register_craft

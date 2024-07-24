@@ -38,9 +38,9 @@ The closer to the orange grid the green one is, the closer a chunk border is in 
 # PosTool
 Crafting recipe:
 ```
-		|				|				| default:glass |
-		|				| default:torch |				|
-		| default:stick |				|				|
+		|       |       | glass |
+		|       | torch |       |
+		| stick |       |       |
 ```
 Punch or place with PosTool to show a grid of the map-block at that position.
 If PosTool is used on a node, that nodes position will be used otherwise players position.
@@ -83,6 +83,12 @@ postool.tool.griddisplayduration		12
 postool.tool.suppresschunkindicator	false (0/1)
 postool.tool.usevizlib                    false (0/1)
 ```
+
+# Supported Games
+Originally created for default Minetest game and should work with most other games.
+When [xcompat](https://github.com/mt-mods/xcompat) is installed, crafting recipe
+for the wand adapts to any games supported by xcompat.
+
 # Thanks
 This mod was strongly inspired by [poshud](https://github.com/orwell96/poshud).
 Some techniques I borrowed from [missions](https://github.com/thomasrudin-mt/missions).
