@@ -13,6 +13,7 @@ read_globals = {
 	"vector", "ItemStack",
 	"dump",
 
-	-- deps
-	"default", "advtrains", "mesecons_debug", "unified_inventory", "vizlib"
+	-- optional dependencies
+	"default", "advtrains", "mesecons_debug",
+	"unified_inventory", "vizlib", "xcompat",
 }
