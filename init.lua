@@ -7,7 +7,7 @@ local function S(s) return s end
 
 --settings
 postool = {
-	version = 20240718.2107,
+	version = 20240723.2039,
 	S = S,
 	-- Position of hud
 	hudPosX = tonumber(minetest.settings:get('postool.hud.offsetx') or 0.8),
