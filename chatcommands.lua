@@ -6,7 +6,7 @@ postool.chatcommand = {
 	description = 'Configure postool HUD\n'
 			.. 'Commands are case insensitive. '
 			.. 'resetHUD: resets to factory settings. '
-			.. 'stats: ouptuts some information. '
+			.. 'stats: outputs some information. '
 			.. 'toggleChunk: toggles chunk indicator for player.',
 	func = function(sName, sParam)
 
